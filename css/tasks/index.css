@@ -1,0 +1,56 @@
+#add-task-form {
+	display:none;
+}
+#timer {
+	border:1px solid #9ea3e3;
+	background:#e5e0ff;
+	min-height:38px;
+}
+#timer #timer-mins,#timer #timer-hours {
+	font-size:20px;
+}
+#timer #timer-secs {
+	font-size:15px;
+}
+#timer #timer-task {
+	font-size:20px;
+	font-weight:bold;
+	line-height:18px;
+}
+#timer-total {
+	float:right;
+	background-color:#cac9ff;
+	border:1px solid #9ea3e3;
+}
+
+#task-list {
+	list-style:none;
+	margin:10px 0 0 0;
+	padding:0;
+}
+#task-list li:hover {
+	background:#ddd;
+	cursor:pointer;
+}
+#task-list li.working:hover {
+	background:#0f0;
+}
+
+.status-paused {
+	background:#b7aeff;
+}
+.working {
+	background:#0f0;
+}
+.paused {
+	background:#008183;
+}
+
+
+/* Override Layout styles */
+body {
+	margin:5px;
+}
+h1 {
+	display:none;
+}

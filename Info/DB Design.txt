@@ -1,0 +1,11 @@
+Task
+----
+status
+	 working		The user is currently working on the task
+	 done			The task is over
+	 scheduled		The task is in the ToDo list
+	 
+Type
+	recurring		The task should be done again on a regular interval
+	once			Once the task is given - it will never be given agian
+	scheduled		The task may come agian, but not in a regular interval

@@ -1,0 +1,77 @@
+#day-navigation {
+	width:400px;
+	margin:0 auto;
+	list-style:none;
+}
+#day-navigation li {
+	width:30%;
+	float:left;
+	padding:0;
+	text-align:center;
+	font-size:1.3em;
+}
+
+#day-hour-scale {
+	list-style:none;
+	margin:0;
+	padding:0;
+}
+#day-hour-scale li {
+	float:left;
+	padding:0;
+	width:4%;
+	border-top:1px solid #ccc;
+	/*border-left:1px solid #ccc;*/
+	background:url(border-line.png) no-repeat top left; /*We use this instead of the border due to the box-model - the 1px width of the border will wreak the scale*/
+	height:30px;
+	vertical-align:top;
+	color:#666;
+}
+
+#tasks-area {
+	position:relative;
+	height:100px;
+}
+.daily-task {
+	position:absolute;
+	height:100px;
+	border:1px solid #abd329;
+	background-color:#cfff32;
+	z-index:1;
+}
+.task-details {
+	color:#666;font-size:.8em;
+	display:none;
+}
+
+/* Hide the smaller tasks */
+.small .task-name {
+	display:none;
+}
+.small:hover {
+	width:200px !important;
+	z-index:10;
+}
+.daily-task:hover span {
+	display:inline;
+}
+
+.active {
+	border:1px solid #ff5a08;
+	background-color:#ffd0b8;
+}
+
+#tasks-aggregate dt {
+	float:left;
+	clear:left;
+	font-weight:bold;
+	margin:0 0 0 5px;
+}
+#tasks-aggregate dt:after {
+	content:":";
+}
+#tasks-aggregate dd {
+	float:left;
+	padding:0;
+	margin:0 0 0 5px;
+}

@@ -1,0 +1,53 @@
+table.calendar {
+	width:100%;
+	border:1px solid #fff;
+	padding:0;
+}
+.calendar th {
+	background: #565;
+	color: #fff;
+	margin: 3px;
+	padding: 2px 5px;
+}
+.calendar th a {
+	color: #fff; 
+}
+.calendar td {
+	background: #eee;
+	padding: 2px;
+	margin:0;
+	width:13%;
+	height:100px;
+	vertical-align:top;
+}
+.calendar tr.weekday-names td {
+	height:20px;
+	text-align:center;
+	color:#fff;
+	background-color: #aaa;
+}
+.calendar tr.odd-row td {
+	background-color:#ddd;
+}
+.calendar .date-number {
+	float:right;
+	font-weight:bold;
+	color:#666;
+}
+.calendar td.overflow-days {
+	background-color: #999;
+}
+
+
+.points {
+	font-size:200%;
+}
+table.calendar tr td.succeed {
+	background-color:#e9ffdb;
+}
+table.calendar tr td.failed {
+	background-color:#ff9474;
+}
+table.calendar tr td.today {
+	background-color:#a4e1ff;
+}
