@@ -4,8 +4,8 @@ include('../../../iframe/common.php');
 if(!isRequest('task_id')) showMessage("Task ID not given!",'index.php','error');
 
 if(isRequest('action','start')) {
-	$total_time = getTotalTime($QUERY['task_id']); //Find how long this task was going on
-	$duration_id = startTask($QUERY['task_id']);
+	$total_time = $Task->getTotalTime($QUERY['task_id']); //Find how long this task was going on
+	$duration_id = $Task->startTask($QUERY['task_id']);
 	
 	$times = formatTimeFromSeconds($total_time);
 
@@ -17,18 +17,18 @@ if(isRequest('action','start')) {
 	showMessage("Task Started",'index.php','success',$data);
 
 } else if(isRequest('action','pause')) {
-	pauseTimer($QUERY['task_id']);
+	$Task->pauseTimer($QUERY['task_id']);
 	showMessage("Task Paused");
 
 } else if(isRequest('action','done')) {
-	if(stopTask($QUERY['task_id']))	showMessage("Task Compleated");
+	if($Task->stopTask($QUERY['task_id']))	showMessage("Task Compleated");
 	else {// Someone tried to end a recurring task. Bad, bad.
 		showMessage("Recurring task - cannot be finished",'index.php','error');
 	}
 
 } else if(isRequest('action','continue')) {
-	$total_time = getTotalTime($QUERY['task_id']); //Find how long this task was going on
-	$durations = continueTimer($QUERY['task_id']);
+	$total_time = $Task->getTotalTime($QUERY['task_id']); //Find how long this task was going on
+	$durations = $Task->continueTimer($QUERY['task_id']);
 	
 	$times = formatTimeFromSeconds($total_time);
 	$time_taken_so_far = formatTimeFromSeconds($durations['time_taken']);

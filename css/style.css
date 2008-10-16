@@ -8,18 +8,74 @@ a {
 	text-decoration:none;
 	color:blue;
 }
-br {
-	clear:both;
-}
-
-/*Forms*/
 .form-area label {
-	width:80px;
-	font-weight:bold;
+	width:100px;
+	display:block;
 	float:left;
 	text-align:right;
 	padding-right:5px;
 }
-.form-area input {
+.form-area inupt, .form-area select {
 	float:left;
+}
+br {
+	clear:both;
+}
+
+#loading {
+	position:absolute;
+	top:0;
+	left:0;
+	color:#fff;
+	padding:2px 2px 2px 20px;
+	display:none;
+}
+
+/* Table */
+table {
+	width:100%;
+	border-collapse:collapse;
+}
+th {
+	text-align:left;
+}
+table .odd {
+	background-color:#eee;
+}
+
+/*Messages*/
+#warning-message,.warning {
+	color:red;
+}
+#error-message,.error {
+	color:red;
+}
+#success-message,.success {
+	color:darkgreen;
+}
+	
+#warning-message,.warning, #success-message,.success,#error-message,.error {
+	font-weight:bold;
+	padding-left:18px;
+	background-repeat:no-repeat;
+	background-position:top left;
+}
+
+
+/*Icons*/
+.icon,.page-next,.page-back,.page-first,.page-last,.page-previous {
+	font-size:0px;
+	padding:10px 8px;
+	background-repeat:no-repeat;
+	background-position:top left;
+}
+.list-with-icon li,.list-with-icon dt, .with-icon {
+	padding:2px 0 2px 18px;
+	background-repeat:no-repeat;
+	background-position:top left;
+}
+.menu-with-icon li a {
+	padding-left:12px;
+	background-repeat:no-repeat;
+	background-position:top left;
 }

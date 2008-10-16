@@ -18,9 +18,11 @@ Total Time <span id="timer-total-hours">00</span>:<span id="timer-total-mins">00
 
 <?php if($active_tasks) { ?>
 <script type="text/javascript">
+function main() {
 <?php foreach($active_tasks as $task) { ?>
 continueTask(<?=$task['id']?>);
 <?php } ?>
+}
 </script>
 <?php } ?>
 
