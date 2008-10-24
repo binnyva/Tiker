@@ -9,8 +9,8 @@
 <ul id="day-hour-scale">
 <li>&nbsp;12 AM</li><li>&nbsp;1 AM</li><li>&nbsp;2 AM</li><li>&nbsp;3 AM</li><li>&nbsp;4 AM</li><li>&nbsp;5 AM</li>
 <li>&nbsp;6 AM</li><li>&nbsp;7 AM</li><li>&nbsp;8 AM</li><li>&nbsp;9 AM</li><li>&nbsp;10 AM</li><li>&nbsp;11 AM</li>
-<li>&nbsp;12 Noon</li><li>&nbsp;1 PM</li><li>&nbsp;2 AM</li><li>&nbsp;3 AM</li><li>&nbsp;4 AM</li><li>&nbsp;5 AM</li>
-<li>&nbsp;6 AM</li><li>&nbsp;7 AM</li><li>&nbsp;8 AM</li><li>&nbsp;9 AM</li><li>&nbsp;10 AM</li><li>&nbsp;11 AM</li>
+<li>&nbsp;12 Noon</li><li>&nbsp;1 PM</li><li>&nbsp;2 PM</li><li>&nbsp;3 PM</li><li>&nbsp;4 PM</li><li>&nbsp;5 PM</li>
+<li>&nbsp;6 PM</li><li>&nbsp;7 PM</li><li>&nbsp;8 PM</li><li>&nbsp;9 PM</li><li>&nbsp;10 PM</li><li>&nbsp;11 PM</li>
 </ul><br /><br />
 
 <div id="tasks-area">
