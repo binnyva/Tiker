@@ -1,8 +1,8 @@
 <?php
 include('../common.php');
 
-if(isset($QUERY['id']) and is_numeric($QUERY['id'])) {
-	$Task->remove($QUERY['id']);
+if(isset($QUERY['duration']) and is_numeric($QUERY['duration'])) {
+	$Task->remove($QUERY['duration']);
 
 	showMessage("Task deleted successfully",'tasks/index.php');
 }

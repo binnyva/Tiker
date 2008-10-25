@@ -17,7 +17,7 @@ foreach($task_details as $work) {
 <td><?=date('h:i a', $work['to_time'])?></td>
 <td><?=$diff?></td>
 <td><a href="duration_edit.php?duration=<?=$work['id']?>" class="with-icon edit">Edit</a></td>
-<td><a href="duration_delete.php?duration=<?=$work['id']?>" class="with-icon delete confirm">Delete</a></td></tr>
+<td><a href="duration_delete.php?duration=<?=$work['id']?>&amp;task=<?=$QUERY['task']?>" class="with-icon delete confirm">Delete</a></td></tr>
 
 <?php } ?>
 </table>
