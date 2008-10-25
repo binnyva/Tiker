@@ -1,24 +1,13 @@
 <?php
-include('../../../iframe/common.php');
+include('../common.php');
 
-$tasks = $sql->getAll("SELECT Task.id, Task.name, Task.status, Duration.id AS duration_id, Duration.to_time "
-	. " FROM Task INNER JOIN Duration ON Duration.task_id = Task.id "
-	. " WHERE status = 'working' AND Task.user_id=$_SESSION[user_id] "
-	. " AND Duration.id=(SELECT MAX(id) FROM Duration WHERE task_id=Task.id) "
-	. " GROUP BY Task.id ORDER BY Task.type");
+$project_list = $sql->getById("SELECT id,name FROM Project WHERE user_id=$_SESSION[user_id]");
+$project_list[0] = 'Misc';
 
-//Get the active tasks
-$active_tasks = array();
-foreach($tasks as $task) {
-	if($task['to_time'] == '0000-00-00 00:00:00') {
-		$active_tasks[] = array(
-			'id'	=>	$task['id'],
-			'name'	=>	$task['name']
-		);
-	}
-}
+$pager = new SqlPager("SELECT id, name, type, project_id, status,
+	DATE_FORMAT(added_on,'$config[time_format]') AS added_time, DATE_FORMAT(completed_on,'$config[time_format]') AS completion_time
+	FROM Task WHERE user_id=$_SESSION[user_id]
+	ORDER BY status='working' DESC, added_on DESC", 20);
+$tasks = $pager->getPage();
 
-$html = new HTML;
-$template->addResource('tasks/clock.js','js');
-$template->addResource('libraries/shortcut.js','js');
 render();

@@ -20,15 +20,21 @@ function getTimeDifference($from, $to, $return_type='hour_min') {
 	if(!$to) $to = time(); // If $to is 0, that means its an ongoing task - so give it current time.
 	
 	$diff = $to - $from;
-	if($return_type == 'seconds') return $diff;
+	if($return_type != 'hour_min') return $diff;
 	return seconds2hourmin($diff);
 }
 
 /// Converts the seconds given as the argument to a hour, minute array.
-function seconds2hourmin($seconds) {
+function seconds2hourmin($seconds, $return_type='array') {
 	$minute_difference = ($seconds/60) % 60;
 	$hour_difference = floor(($seconds/60)/60);
 	
+	if($return_type != 'array') {
+		$diff = '';
+		if($hour_difference) $diff = "$hour_difference hours, ";
+		$diff .= "$minute_difference mins";
+		return $diff;
+	}
 	return array($hour_difference, $minute_difference);
 }
 

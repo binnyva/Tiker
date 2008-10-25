@@ -27,7 +27,7 @@ include($GLOBALS['template']->template);
 ?>
 <!-- End Content -->
 
-<script src="<?=$abs?>js/libraries/jsl.js" type="text/javascript"></script>
+<script src="<?=$abs?>js/library/jsl.js" type="text/javascript"></script>
 <script src="<?=$abs?>js/application.js" type="text/javascript"></script>
 <?=$js_includes?>
 </body>
