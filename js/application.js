@@ -1,3 +1,5 @@
+site_url = "http://localhost/Projects/Tiker/";
+
 function padNumber(number,points) {
 	var number_string = number;
 	if(!number) number = 1;//0 Protection

@@ -20,12 +20,4 @@ else print $task['completion_time'];
 <?php } ?>
 </table><br />
 
-<div id="pager">
-<?php
-$pager->status_template = 'Page %%PAGE%% of %%TOTAL_PAGES%%';
-print $pager->getLink("first") . $pager->getLink("previous");
-$pager->printGoToDropDown();
-print $pager->getLink("next") . $pager->getLink("last");print "<br />";
-print $pager->getStatus(); 
-?>
-</div>
+<?php printPager(); ?>

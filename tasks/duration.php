@@ -1,6 +1,7 @@
 <?php
-include('../../../iframe/common.php');
+include('../common.php');
 
+//Used by the remote.php file
 if(!isRequest('task_id')) showMessage("Task ID not given!",'index.php','error');
 
 if(isRequest('action','start')) {

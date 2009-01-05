@@ -1,4 +1,4 @@
-<h1>Edit Duration in '<a href="edit.php?id=<?=$data['task_id']?>"><?=$data['name']?></a>'</h1>
+<h1>Edit Duration in '<a href="edit.php?task=<?=$data['task_id']?>"><?=$data['name']?></a>'</h1>
 
 <form action="" method="post" id="duration-form" class="form-area">
 <?php

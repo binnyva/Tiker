@@ -75,7 +75,7 @@ function startTask(task_id) {
 	JSL.dom("task-"+task_id).removeClass("paused");
 	removePauseIndecators();
 
-	JSL.ajax("duration.php?ajax=1&action=start&task_id="+task_id).load(function(data) {
+	JSL.ajax(site_url+"tasks/duration.php?ajax=1&action=start&task_id="+task_id).load(function(data) {
 		clock.total.minutes = data.total_time_minutes;
 		clock.total.hours = data.total_time_hours;
 		clock.start();
@@ -96,7 +96,7 @@ function pauseTask(task_id) {
 	task_item.removeClass("working");
 
 	//Almost nothing will be returned for this call.
-	JSL.ajax("duration.php?ajax=1&action=pause&task_id="+task_id).load(function(data) {
+	JSL.ajax(site_url+"tasks/duration.php?ajax=1&action=pause&task_id="+task_id).load(function(data) {
 		current_task_duration_id = 0;
 	},'j');
 }
@@ -110,7 +110,7 @@ function continueTask(task_id) {
 	current_task_id = task_id;
 	
 	//Returns should be duration_id, total_time_minutes, total_time_hours, time_taken_hours, time_taken_mins, time_taken_secs
-	JSL.ajax("duration.php?ajax=1&action=continue&task_id="+task_id).load(function(data) {
+	JSL.ajax(site_url+"tasks/duration.php?ajax=1&action=continue&task_id="+task_id).load(function(data) {
 		clock.total.minutes	= data.total_time_minutes;
 		clock.total.hours	= data.total_time_hours;
 		clock.hours			= data.time_taken_hours;
@@ -122,7 +122,7 @@ function continueTask(task_id) {
 }
 
 function stopTask(task_id) {
-	JSL.ajax("duration.php?ajax=1&action=done&task_id="+task_id).load(function(data) {
+	JSL.ajax(site_url+"tasks/duration.php?ajax=1&action=done&task_id="+task_id).load(function(data) {
 		if(data.success) { // The task is done, remove the entry
 			JSL.dom("timer-task").innerHTML = "";
 			current_task_id = 0;
@@ -144,7 +144,7 @@ function addTask(e) {
 	var task_name = $("name").value;
 	var task_start = $("task-start").checked.toString();
 
-	JSL.ajax('new.php?action=Add&name='+task_name+'&task_start='+task_start+'&ajax=1').load(function(data) {
+	JSL.ajax(site_url+'tasks/new.php?action=Add&name='+task_name+'&task_start='+task_start+'&ajax=1').load(function(data) {
 		if(data.error) {
 			showMessage(error);
 			return;

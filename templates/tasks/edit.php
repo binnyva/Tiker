@@ -6,10 +6,8 @@
 <tr><th>From</th><th>To</th><th>Duration</th><th colspan="2">Actions</th></tr>
 <?php
 $counter = 0;
-$total_time = 0;
 foreach($task_details as $work) {
 	$difference_sec = getTimeDifference($work['from_time'], $work['to_time'], 'seconds');
-	$total_time += $difference_sec;
 	
 	$diff = seconds2hourmin($difference_sec, 'string');
 ?>
@@ -21,6 +19,8 @@ foreach($task_details as $work) {
 
 <?php } ?>
 </table>
+
+<?php printPager(); ?>
 
 <strong>Total Time</strong>: <?=seconds2hourmin($total_time, 'string')?>
 

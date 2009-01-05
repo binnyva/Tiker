@@ -1,5 +1,5 @@
 <?php
-include('../../../iframe/common.php');
+include('../common.php');
 
 $tasks = $sql->getAll("SELECT Task.id, Task.name, Task.status, Duration.id AS duration_id, Duration.to_time "
 	. " FROM Task INNER JOIN Duration ON Duration.task_id = Task.id "

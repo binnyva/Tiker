@@ -38,3 +38,15 @@ function seconds2hourmin($seconds, $return_type='array') {
 	return array($hour_difference, $minute_difference);
 }
 
+/// Prints a pager.
+function printPager($pager = false) {
+	if($pager === false) $pager = $GLOBALS['pager'];
+	
+	if($pager->total_pages < 2) return;
+	print '<div class="pager">';
+	print $pager->getLink("first") . $pager->getLink("previous");
+	$pager->printGoToDropDown();
+	print $pager->getLink("next") . $pager->getLink("last");print "<br />";
+	print '</div>';
+}
+

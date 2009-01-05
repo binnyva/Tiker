@@ -79,3 +79,9 @@ table .odd {
 	background-repeat:no-repeat;
 	background-position:top left;
 }
+
+
+/* Tiker Specific */
+.pager form {
+	display:inline;
+} 

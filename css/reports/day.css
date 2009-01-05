@@ -9,6 +9,7 @@
 	padding:0;
 	text-align:center;
 	font-size:1.3em;
+	white-space:nowrap;
 }
 
 #day-hour-scale {
@@ -26,6 +27,7 @@
 	height:30px;
 	vertical-align:top;
 	color:#666;
+	white-space:nowrap;
 }
 
 #tasks-area {
