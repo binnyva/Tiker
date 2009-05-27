@@ -3,6 +3,7 @@ include('../common.php');
 
 //Used by the remote.php file
 if(!isRequest('task_id')) showMessage("Task ID not given!",'index.php','error');
+checkTaskOwnership($QUERY['task_id']);
 
 if(isRequest('action','start')) {
 	$total_time = $Task->getTotalTime($QUERY['task_id']); //Find how long this task was going on

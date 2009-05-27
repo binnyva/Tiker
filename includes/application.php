@@ -1,17 +1,42 @@
 <?php
 require_once(joinPath($config['site_folder'], 'models/Task.php'));
+require_once(joinPath($config['site_folder'], 'models/User.php'));
 
-$_SESSION['user_id'] = 1;
+$User = new User;
 
-function isRequest($key, $value = false) {
-	if($value === false) {
-		if(isset($_REQUEST[$key]) and $_REQUEST[$key]) return true;
-	}
-	if(isset($_REQUEST[$key]) and $_REQUEST[$key] == $value) return true;
+//////////////////////////////////// Authenitication Checks ////////////////////////////////////
+function checkUser($check_admin = false) {
+	global $config;
 	
-	return false;
+	if($check_admin and isset($_SESSION['admin'])) return; //Admin is allowed even if he is not logged in the client side.
+	
+	if((!isset($_SESSION['user_id']) or !$_SESSION['user_id']))
+		showMessage("Please login to use this feature", $config['site_url'] . 'user/login.php', "error");
 }
 
+/// See if the given task's owner is the currently logined user.
+function checkTaskOwnership($task_id, $return_only = false) {
+	global $sql;
+	$task_owner = $sql->getOne("SELECT user_id FROM Task WHERE id=$task_id");
+	$correct_owner = ($task_owner == $_SESSION['user_id']);
+		
+	if($return_only) return $correct_owner;
+	if(!$correct_owner) showMessage("That task don't belong to you.", 'index.php', 'error');
+}
+
+/// See if the given duration's owner is the currently logined user.
+function checkDurationOwnership($duration_id, $return_only = false) {
+	global $sql;
+	$task_owner = $sql->getOne("SELECT user_id FROM Task INNER JOIN Duration on Duration.task_id=Task.id 
+										WHERE Durationid=$duration_id");
+	$correct_owner = ($task_owner == $_SESSION['user_id']);
+
+	if($return_only) return $correct_owner;
+	if(!$correct_owner) showMessage("That Task duration don't belong to you.", 'index.php', 'error');
+}
+
+
+////////////////////////////////////////// Time Functions ///////////////////////
 /// Get the time difference between the two given time and returns it as an hour, minute array
 function getTimeDifference($from, $to, $return_type='hour_min') {
 	// The argument can be a timestamp or a mysql date string - both are parsed correctly
@@ -36,6 +61,17 @@ function seconds2hourmin($seconds, $return_type='array') {
 		return $diff;
 	}
 	return array($hour_difference, $minute_difference);
+}
+
+//////////////////////////////////////////////// Misc Stuff ////////////////////////////
+// Old stuff - can use i() to replace this.
+function isRequest($key, $value = false) {
+	if($value === false) {
+		if(isset($_REQUEST[$key]) and $_REQUEST[$key]) return true;
+	}
+	if(isset($_REQUEST[$key]) and $_REQUEST[$key] == $value) return true;
+	
+	return false;
 }
 
 /// Prints a pager.

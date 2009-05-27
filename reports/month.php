@@ -9,7 +9,7 @@ $calendar->limit = array(
 $calendar->setDateField("Duration.from_time");
 $calendar->setQuery("SELECT COUNT(*) AS total_items, Duration.from_time, DATE_FORMAT(Duration.from_time,'%d') AS day, "
 		. " SUM(IF(Duration.to_time='0000-00-00 00:00:00', UNIX_TIMESTAMP(),UNIX_TIMESTAMP(Duration.to_time))-UNIX_TIMESTAMP(Duration.from_time)) AS time_tracked"
-		. " FROM Task INNER JOIN Duration ON Duration.task_id=Task.id ", "",/*WHERE*/ " GROUP BY day");
+		. " FROM Task INNER JOIN Duration ON Duration.task_id=Task.id ", " WHERE Task.user_id=$_SESSION[user_id]", " GROUP BY day");
 
 function day($year, $month, $day) {
 	global $calendar;

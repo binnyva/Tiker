@@ -24,11 +24,12 @@ class Task extends DBTable {
 		
 		$this->newRow();
 		$this->field['name'] = $name;
-		if($description !== false) $this->field['description'] = $description;
-		if($status !== false) $this->field['status'] = $status;
-		if($type !== false) $this->field['type'] = $type;
-		if($project_id !== false) $this->field['project_id'] = $project_id;
-		$this->field['added_on'] = 'NOW()';
+		if($description !== false)	$this->field['description'] = $description;
+		if($status !== false)		$this->field['status'] = $status;
+		if($type !== false)			$this->field['type'] = $type;
+		if($project_id !== false)	$this->field['project_id'] = $project_id;
+		$this->field['user_id']	= 	$_SESSION['user_id'];
+		$this->field['added_on']= 	'NOW()';
 				
 		return $this->save();
 	}
@@ -97,6 +98,7 @@ class Task extends DBTable {
 	/////////////////////////////// Custom Code ///////////////////////////
 	
 	function startTask($task_id) {
+		checkTaskOwnership($task_id);
 		$this->newRow($task_id)->set(array('status'=>'working'))->save();
 
 		return $this->startTimer($task_id);
@@ -104,7 +106,7 @@ class Task extends DBTable {
 	
 	/// Stops tasks - but if the given task is recurring, this will return false - it will not be stopped(not even paused).
 	function stopTask($task_id) {
-		$stopped = $this->newRow($task_id)->set(array('status'=>'done', 'completed_on'=>'NOW()'))->where("type!='recurring'")->save();
+		$stopped = $this->newRow($task_id)->set(array('status'=>'done', 'completed_on'=>'NOW()'))->where("type!='recurring'", "user_id=$_SESSION[user_id]")->save();
 		
 		if($stopped) {
 			$this->pauseTimer($task_id);
@@ -117,12 +119,12 @@ class Task extends DBTable {
 
 	/// Stops all tasks - even recurring ones [why do we need this again?]
 	function forceStopTask($task_id) {
-		$stopped = $this->newRow($task_id)->set(array('status'=>'done', 'completed_on'=>'NOW()'))->save();
+		$stopped = $this->newRow($task_id)->set(array('status'=>'done', 'completed_on'=>'NOW()'))->where("user_id=$_SESSION[user_id]")->save();
 		
 		if($stopped) $this->pauseTimer($task_id);
 	}
 	
-	
+	/// Start the timer - from the beginning or from a paused state.
 	function startTimer($task_id) {
 		global $sql;
 		$sql->insert('Duration',array(
@@ -131,6 +133,8 @@ class Task extends DBTable {
 			));
 		return $sql->fetchInsertId();
 	}
+	
+	/// Pause the timer.
 	function pauseTimer($task_id) {
 		global $sql;
 		$current_duration_id = $this->getCurrentDuration($task_id);
@@ -144,6 +148,7 @@ class Task extends DBTable {
 		return $current_duration_id;
 	}
 	
+	/// When the user restarts a paused task, he gets info on how much time the CURRENT DURATION as already taken.
 	function continueTimer($task_id) {
 		global $sql;
 		$duration_details = $sql->getAssoc("SELECT id, UNIX_TIMESTAMP(NOW()) - UNIX_TIMESTAMP(from_time) AS time_taken "
@@ -152,7 +157,7 @@ class Task extends DBTable {
 		return $duration_details;
 	}
 	
-	/** Gets the total time spent on a given task */
+	/// Gets the total time spent on a given task(ALL DURATIONS)
 	function getTotalTime($task_id) {
 		global $sql;
 		$total_time = $sql->getOne("SELECT SUM(UNIX_TIMESTAMP(to_time)-UNIX_TIMESTAMP(from_time)) FROM Duration "

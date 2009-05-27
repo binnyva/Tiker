@@ -1,6 +1,8 @@
 <?php 
 require('common.php');
 
+checkUser();
+
 //Get the final 10 tasks.
 $last_10_tasks = $sql->getAll("SELECT Task.name, Task.id as task_id, Task.status, Task.type, Duration.id AS duration_id, Duration.from_time, Duration.to_time
 	FROM Duration INNER JOIN Task ON Task.id=Duration.task_id

@@ -2,6 +2,8 @@
 include('../common.php');
 include('_form.php');
 
+checkTaskOwnership($QUERY['task']);
+
 if(isset($QUERY['action']) and $QUERY['action']=='Edit') {
 	if($Task->edit($QUERY['task'], $QUERY['name'], $QUERY['description'],$QUERY['status'], $QUERY['type'], $QUERY['completed_on'], $QUERY['project_id'])) {
 		showMessage("Task updated successfully",'tasks/index.php');

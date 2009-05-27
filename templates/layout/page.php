@@ -9,11 +9,21 @@
 <div id="loading">loading...</div>
 <div id="header">
 <h1 id="logo"><a href="<?=$abs?>"><?=$title?></a></h1>
+
+<?php
+
+if(!isset($_SESSION['user_id'])) { ?>
+<a href="<?=$abs?>user/register.php">Sign Up</a> &nbsp; &nbsp;
+<a href="<?=$abs?>user/login.php">Login</a>
+<?php } else { ?>
+<a href="<?=$abs?>">Dashboard</a> &nbsp; &nbsp;
+<a href="<?=$abs?>user/logout.php">Logout</a>
+<?php } ?>
 </div>
 
 <!-- Begin Content -->
 <div id="error-message" <?=($QUERY['error']) ? '':'style="display:none;"';?>><?php
-	if(isset($PARAM['error'])) print strip_tags($PARAM['error']); //It comes from the URL
+	if(i($PARAM, 'error')) print strip_tags($PARAM['error']); //It comes from the URL
 	else print $QUERY['error']; //Its set in the code(validation error or something.
 ?></div>
 <div id="success-message" <?=($QUERY['success']) ? '':'style="display:none;"';?>><?=strip_tags(stripslashes($QUERY['success']))?></div>

@@ -5,7 +5,8 @@ else $day = date('Y-m-d');
 
 $day_tasks = $sql->getAll("SELECT Task.id,Task.name,Duration.id AS duration_id, Duration.from_time,Duration.to_time "
 		. " FROM Task INNER JOIN Duration ON Duration.task_id=Task.id "
-		. " WHERE DATE(Duration.to_time)='$day' OR DATE(Duration.from_time)='$day' ORDER BY Duration.from_time");
+		. " WHERE Task.user_id=$_SESSION[user_id] AND (DATE(Duration.to_time)='$day' OR DATE(Duration.from_time)='$day') "
+		. " ORDER BY Duration.from_time");
 
 $tasks_aggregate = array();
 $todays_tasks = array();
