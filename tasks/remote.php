@@ -1,5 +1,6 @@
 <?php
 include('../common.php');
+checkUser();
 
 $tasks = $sql->getAll("SELECT Task.id, Task.name, Task.status, Duration.id AS duration_id, Duration.to_time "
 	. " FROM Task INNER JOIN Duration ON Duration.task_id = Task.id "
@@ -21,4 +22,5 @@ foreach($tasks as $task) {
 $html = new HTML;
 $template->addResource('tasks/clock.js','js');
 $template->addResource('library/shortcut.js','js');
+$template->addResource('library/plugins/debug.js','js');
 render();

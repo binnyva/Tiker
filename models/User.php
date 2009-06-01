@@ -39,10 +39,11 @@ class User extends DBTable {
 	 */
 	function login($username,$password,$remember=0) {
 		global $sql;
-		$this->id = -1;
+		$this->id = 0;
 		
 		$user_details = $sql->getAssoc("SELECT id,name FROM User WHERE username='$username' AND password='$password'");
 		if(!$user_details) { //Query did not run correctly
+			if($_REQUEST['layout'] == 'cli') return 0;
 			showMessage("Invalid Username/Password", "login.php", "error");
 
 		} else {

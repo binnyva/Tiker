@@ -1,7 +1,7 @@
 <?php
 include('../common.php');
 
-if(isset($QUERY['task']) and is_numeric($QUERY['task'])) {
+if(i($QUERY, 'task')) {
 	checkTaskOwnership($QUERY['task']);
 	$Task->remove($QUERY['task']);
 

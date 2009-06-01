@@ -1,6 +1,6 @@
 <?php
 include('../common.php');
-checkDurationOwnership($QUERY['task']);
+checkDurationOwnership($QUERY['duration']);
 
 $html = new HTML;
 $template->addResource('library/check.js','js');

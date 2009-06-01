@@ -16,7 +16,7 @@ else print $task['completion_time'];
 ?></td>
 <td><?=ucfirst($task['type'])?></td>
 
-<td class="action"><a class="icon edit" href="edit.php?task=<?=$id?>&amp;action=show_form">Edit</a></td><td class="action"><a class="icon delete confirm" href="delete.php?duration=<?=$id?>">Delete</a></td></tr>
+<td class="action"><a class="icon edit" href="edit.php?task=<?=$id?>&amp;action=show_form">Edit</a></td><td class="action"><a class="icon delete confirm" href="delete.php?task=<?=$id?>">Delete</a></td></tr>
 <?php } ?>
 </table><br />
 

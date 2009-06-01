@@ -5,13 +5,14 @@ require_once(joinPath($config['site_folder'], 'models/User.php'));
 $User = new User;
 
 //////////////////////////////////// Authenitication Checks ////////////////////////////////////
-function checkUser($check_admin = false) {
+function checkUser($redirect = true) {
 	global $config;
 	
-	if($check_admin and isset($_SESSION['admin'])) return; //Admin is allowed even if he is not logged in the client side.
-	
-	if((!isset($_SESSION['user_id']) or !$_SESSION['user_id']))
-		showMessage("Please login to use this feature", $config['site_url'] . 'user/login.php', "error");
+	if((!isset($_SESSION['user_id']) or !$_SESSION['user_id'])) {
+		if($redirect) showMessage("Please login to use this feature", $config['site_url'] . 'user/login.php', "error");
+		return false;
+	}
+	return true;
 }
 
 /// See if the given task's owner is the currently logined user.
@@ -28,7 +29,7 @@ function checkTaskOwnership($task_id, $return_only = false) {
 function checkDurationOwnership($duration_id, $return_only = false) {
 	global $sql;
 	$task_owner = $sql->getOne("SELECT user_id FROM Task INNER JOIN Duration on Duration.task_id=Task.id 
-										WHERE Durationid=$duration_id");
+										WHERE Duration.id=$duration_id");
 	$correct_owner = ($task_owner == $_SESSION['user_id']);
 
 	if($return_only) return $correct_owner;

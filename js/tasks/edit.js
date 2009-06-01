@@ -1,6 +1,5 @@
 function init() {
-	$("edit-task-link").click(showEditForm);
-
+	if(document.getElementById("edit-task-link")) $("edit-task-link").click(showEditForm);
 }
 
 
