@@ -22,5 +22,4 @@ foreach($tasks as $task) {
 $html = new HTML;
 $template->addResource('tasks/clock.js','js');
 $template->addResource('library/shortcut.js','js');
-$template->addResource('library/plugins/debug.js','js');
 render();
