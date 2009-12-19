@@ -3,7 +3,7 @@
 <title><?=$title?></title>
 <link href="<?=$abs?>css/style.css" rel="stylesheet" type="text/css" />
 <link href="<?=$abs?>images/silk_theme.css" rel="stylesheet" type="text/css" />
-<?=$includes?>
+<?=$css_includes?>
 </head>
 <body>
 <div id="loading">loading...</div>

@@ -1,6 +1,4 @@
 <?php
-require_once(joinPath($GLOBALS['config']['iframe_folder'], 'includes/classes/ORM.php')); 
-
 class User extends DBTable {
 	var $id = 0;
 	
