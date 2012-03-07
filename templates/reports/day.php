@@ -1,9 +1,9 @@
-<h2><?=date('l, dS F, Y', strtotime($day)); ?></h2>
+<h2><?php echo date('l, dS F, Y', strtotime($day)); ?></h2>
 
 <ul id="day-navigation">
-<li><a href="<?=joinPath($config['site_url'], 'reports/day.php') ?>?day=<?=date('Y-m-d', strtotime($day) - 60*60*24); ?>">&lt; Previous Day</a></li>
-<li><?=date('F d', strtotime($day)); ?></li>
-<li><a href="<?=joinPath($config['site_url'], 'reports/day.php') ?>?day=<?=date('Y-m-d', strtotime($day) + 60*60*24); ?>">Next Day &gt;</a></li>
+<li><a href="<?php echo joinPath($config['site_url'], 'reports/day.php') ?>?day=<?php echo date('Y-m-d', strtotime($day) - 60*60*24); ?>">&lt; Previous Day</a></li>
+<li><?php echo date('F d', strtotime($day)); ?></li>
+<li><a href="<?php echo joinPath($config['site_url'], 'reports/day.php') ?>?day=<?php echo date('Y-m-d', strtotime($day) + 60*60*24); ?>">Next Day &gt;</a></li>
 </ul><br />
 
 <ul id="day-hour-scale">
@@ -37,7 +37,7 @@ if(isset($last_tasks)) {
 	$title = 'Total Time Taken';
 }
 ?>
-<h3><?=$title?></h3>
+<h3><?php echo $title?></h3>
 <dl id="tasks-aggregate">
 <?php
 foreach($show_tasks as $task) {
@@ -48,4 +48,6 @@ foreach($show_tasks as $task) {
 	print "</dd>\n";
 }
 ?>
-</dl>
+</dl><br />
+
+<a href="<?php echo $config['site_url'] ?>tasks/">All Tasks</a>

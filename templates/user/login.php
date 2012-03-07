@@ -2,7 +2,7 @@
 
 <form action="login.php" method="post" class="form-area">
 <label for="username">User name</label>
-<input type="text" name="username" id="username" value="<?=isset($PARAM['username']) ? $PARAM['username']:''?>" /><br />
+<input type="text" name="username" id="username" value="<?php echo isset($PARAM['username']) ? $PARAM['username']:''?>" /><br />
 
 <label for="password">Password</label>
 <input type="password" name="password" id="password" value="" /><br />

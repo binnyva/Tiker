@@ -1,10 +1,5 @@
 <h1>Report Generation</h1>
 
-<form action="" method="post">
-<label for="search">Task Name</label><input type="text" name="search" id="search" value="<?php echo i($_REQUEST, 'search') ?>" />
-<input type="submit" value="Generate Report" name="action" />
-</form>
-
 <?php if(i($_REQUEST, 'search')) { ?>
 
 <h2>Report for <?php echo $_REQUEST['search']; ?></h2>

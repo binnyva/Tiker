@@ -7,6 +7,4 @@ $config = array(
 	'db_password'	=>	'',
 	'db_database'	=>	'Project_Tiker',
 	'site_title'	=>	'Tiker',
-	'site_url'		=>	'http://localhost/Projects/Tiker/',
-	'site_absolute_url'	=>	'/Projects/Tiker/'
 );

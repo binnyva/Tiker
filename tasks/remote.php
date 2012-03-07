@@ -22,4 +22,4 @@ foreach($tasks as $task) {
 $html = new HTML;
 $template->addResource('tasks/clock.js','js');
 $template->addResource('library/shortcut.js','js');
-render();
+render('tasks/remote.php',false);
