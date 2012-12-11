@@ -5,7 +5,7 @@ else $day = date('Y-m-d');
 
 $day_tasks = $sql->getAll("SELECT Task.id,Task.name,Duration.id AS duration_id, Duration.from_time,Duration.to_time "
 		. " FROM Task INNER JOIN Duration ON Duration.task_id=Task.id "
-		. " WHERE Task.user_id=$_SESSION[user_id] AND (DATE(Duration.to_time)='$day' OR DATE(Duration.from_time)='$day') "
+		. " WHERE Task.user_id=$_SESSION[user_id] AND ('$day' BETWEEN DATE(Duration.from_time) AND DATE(Duration.to_time))"
 		. " ORDER BY Duration.from_time");
 
 $tasks_aggregate = array();
@@ -63,19 +63,5 @@ foreach($day_tasks as $task) {
 	$total_minute = $total_minute % 60;
 	$tasks_aggregate[$task_id]['total_minute'] = $total_minute;
 	$tasks_aggregate[$task_id]['total_hour'] = $total_hour;
-}
-
-// Every 15 min is 1% width on the screen - so calculate the width and the location of the task using its from and to time.
-function getTimePercentage($time) {
-	$hour = date('G', $time);
-	$min = intval(date('i', $time));
-	
-	return time2percent($hour, $min);
-}
-function time2percent($hour, $min) {
-	$min_rounded = round($min, -1); //Round to the nearest 10 mins
-	$percent_points = $hour * 4; // 1 hour is 6% width
-	$percent_points+= $min_rounded/15; // each 15 minutes is 1% width
-	return intval($percent_points);
 }
 

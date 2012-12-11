@@ -64,6 +64,22 @@ function seconds2hourmin($seconds, $return_type='array') {
 	return array($hour_difference, $minute_difference);
 }
 
+
+// Every 15 min is 1% width on the screen - so calculate the width and the location of the task using its from and to time.
+function getTimePercentage($time) {
+	$hour = date('G', $time);
+	$min = intval(date('i', $time));
+	
+	return time2percent($hour, $min);
+}
+function time2percent($hour, $min) {
+	$min_rounded = round($min, -1); //Round to the nearest 10 mins
+	$percent_points = $hour * 4; // 1 hour is 6% width
+	$percent_points+= $min_rounded/15; // each 15 minutes is 1% width
+	return intval($percent_points);
+}
+
+
 //////////////////////////////////////////////// Misc Stuff ////////////////////////////
 // Old stuff - can use i() to replace this.
 function isRequest($key, $value = false) {
@@ -86,4 +102,3 @@ function printPager($pager = false) {
 	print $pager->getLink("next") . $pager->getLink("last");print "<br />";
 	print '</div>';
 }
-
