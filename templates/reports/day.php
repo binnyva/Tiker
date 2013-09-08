@@ -1,4 +1,6 @@
-<h2><?php echo date('l, dS F, Y', strtotime($day)); ?></h2>
+<h2><?php echo date('l, dS F, Y', strtotime($day)); ?> <a href="#" id="change-day" class="icon calendar">Change</a></h2>
+
+<form action="<?php echo joinPath($config['site_url'], 'reports/day.php') ?>" method="get" id="change-day-form"><input type="hidden" name="day" id="day" value="" /></form>
 
 <ul id="day-navigation">
 <li><a href="<?php echo joinPath($config['site_url'], 'reports/day.php') ?>?day=<?php echo date('Y-m-d', strtotime($day) - 60*60*24); ?>">&lt; Previous Day</a></li>

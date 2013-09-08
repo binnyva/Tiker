@@ -3,6 +3,7 @@
 <title><?php echo $title?></title>
 <link href="<?php echo $abs?>css/style.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo $abs?>images/silk_theme.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo $abs?>js/library/calendar/calendar.css" rel="stylesheet" type="text/css" />
 <?php echo $css_includes?>
 </head>
 <body>
@@ -49,6 +50,7 @@ include($GLOBALS['template']->template);
 
 <script src="<?php echo $abs?>js/library/jsl.js" type="text/javascript"></script>
 <script src="<?php echo $abs?>js/application.js" type="text/javascript"></script>
+<script src="<?php echo $abs?>js/library/calendar/calendar.js" type="text/javascript"></script>
 <script type="text/javascript">
 site_url = "<?php echo $config['site_url']; ?>";
 </script>

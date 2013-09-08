@@ -19,14 +19,30 @@ function stripSlashes(text) {
 	return text.replace(/\\([\'\"])/,"$1");
 }
 
+function makeCalender() {
+	console.log("Make");
+	calendar.opt['display_element'] = this.id;
+	calendar.opt['input'] = "day";
+	calendar.showCalendar();
+}
+
+function setDate(year, month, day) {
+	document.getElementById(calendar.opt["input"]).value = year + "-" + month + "-" + day;
+	calendar.hideCalendar();
+	document.getElementById("change-day-form").submit();
+}
+
 function siteInit() {
 	$("a.confirm").click(function(e) { //If a link has a confirm class, confrm the action
 		var action = (this.title) ? this.title : "do this";
 		action = action.substr(0,1).toLowerCase() + action.substr(1); //Lowercase the first char.
-		
+
 		if(!confirm("Are you sure you want to " + action + "?")) JSL.event(e).stop();
 	});
-	
+
+	if(document.getElementById("change-day")) calendar.set("change-day", {"onclick": makeCalender, "onDateSelect":setDate});
+
+
 	if(window.init) init(); //If there is a init() anywhere, call it on 'onload'
 	if(window.main) main(); //Same for main()
 }
