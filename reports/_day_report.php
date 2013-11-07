@@ -5,7 +5,8 @@ else $day = date('Y-m-d');
 
 $day_tasks = $sql->getAll("SELECT Task.id,Task.name,Duration.id AS duration_id, Duration.from_time,Duration.to_time "
 		. " FROM Task INNER JOIN Duration ON Duration.task_id=Task.id "
-		. " WHERE Task.user_id=$_SESSION[user_id] AND ('$day' BETWEEN DATE(Duration.from_time) AND DATE(Duration.to_time))"
+		. " WHERE Task.user_id=$_SESSION[user_id] AND (('$day' BETWEEN DATE(Duration.from_time) AND DATE(Duration.to_time))"
+		. " OR Duration.to_time='0000-00-00 00:00:00')"
 		. " ORDER BY Duration.from_time");
 
 $tasks_aggregate = array();
@@ -64,4 +65,3 @@ foreach($day_tasks as $task) {
 	$tasks_aggregate[$task_id]['total_minute'] = $total_minute;
 	$tasks_aggregate[$task_id]['total_hour'] = $total_hour;
 }
-
