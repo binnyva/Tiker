@@ -16,8 +16,22 @@ Total Time <span id="timer-total-hours">00</span>:<span id="timer-total-mins">00
 <span id="timer-task"></span>
 </div>
 
-<ul id="task-list">
+<ul id="tabs">
+<li class="active"><a href="#once-task-list">Once</a></li>
+<li><a href="#recurring-task-list">Recurring</a></li>
+</ul>
+
+<ul id="once-task-list" class="task-list">
 <?php foreach($tasks as $task) { ?>
+<li id="task-<?php echo $task['id']?>">
+<input type="checkbox" id="task-done-<?php echo $task['id']?>" value="<?php echo $task['id']?>" />
+<?php echo $task['name']?></li>
+
+<?php } ?>
+</ul>
+
+<ul id="recurring-task-list" class="task-list">
+<?php foreach($recurring_tasks as $task) { ?>
 <li id="task-<?php echo $task['id']?>">
 <input type="checkbox" id="task-done-<?php echo $task['id']?>" value="<?php echo $task['id']?>" />
 <?php echo $task['name']?></li>

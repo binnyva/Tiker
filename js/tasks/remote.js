@@ -4,14 +4,27 @@ var current_task_id = 0;
 
 function init() {
 	JSL.dom("show-add-task-form").click(showTaskForm);
+
+	JSL.dom("#tabs li a").click(activateTab);
 	
-	JSL.dom("#task-list li").click(taskClickHandler);
-	JSL.dom("#task-list li input").click(taskDoneClickHandler);
+	JSL.dom(".task-list li").click(taskClickHandler);
+	JSL.dom(".task-list li input").click(taskDoneClickHandler);
 
 	JSL.dom("add-task-form").on("submit",addTask);
 	JSL.dom("cancel-add-task").click(hideTaskForm);
 	shortcut.add("Alt+z", showTaskForm);
 	shortcut.add("Alt+;", showTaskForm);//Dovark
+}
+
+function activateTab(e) {
+	var ele = JSL.event(e).getTarget();
+	var tab = ele.href.replace(/.*\#/,"");
+	var li  = ele.parentNode;
+	JSL.dom("#tabs li").removeClass("active");
+	JSL.dom(li).addClass("active");
+
+	JSL.dom(".task-list").hide();
+	JSL.dom("#"+tab).show();
 }
 
 function showTaskForm(e) {
