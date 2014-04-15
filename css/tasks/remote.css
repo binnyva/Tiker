@@ -23,16 +23,16 @@
 	border:1px solid #9ea3e3;
 }
 
-#task-list {
+.task-list {
 	list-style:none;
 	margin:10px 0 0 0;
 	padding:0;
 }
-#task-list li:hover {
+.task-list li:hover {
 	background:#ddd;
 	cursor:pointer;
 }
-#task-list li.working:hover {
+.task-list li.working:hover {
 	background:#0f0;
 }
 
@@ -44,6 +44,26 @@
 }
 .paused {
 	background:#008183;
+}
+
+#tabs {
+	list-style: none;
+	margin:10px 0 0 0;
+	padding: 0;
+	border-bottom:1px solid #000;
+}
+#tabs li {
+	display: inline;
+	border:1px solid #000;
+	border-bottom: 0px;
+	padding:5px 5px 0 5px;
+	border-radius: 3px 3px 0 0;
+}
+#tabs li.active {
+	border-bottom: 1px solid #fff;
+}
+#recurring-task-list {
+	display: none;
 }
 
 
