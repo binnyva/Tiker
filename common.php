@@ -1,2 +1,2 @@
 <?php
-require('/var/www/html/iframe/common.php'); 
+require('/var/www/iframe/common.php'); 

@@ -17,7 +17,7 @@ $recurring_tasks = $sql->getAll("SELECT Task.id, Task.name, Task.status, Duratio
 
 //Get the active tasks
 $active_tasks = array();
-foreach($tasks as $task) {
+foreach(array_merge($recurring_tasks,$tasks) as $task) {
 	if($task['to_time'] == '0000-00-00 00:00:00') {
 		$active_tasks[] = array(
 			'id'	=>	$task['id'],

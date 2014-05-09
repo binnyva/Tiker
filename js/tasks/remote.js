@@ -42,7 +42,7 @@ function hideTaskForm() {
 }
 
 function removePauseIndecators() {
-	JSL.dom("#task-list li").removeClass("paused");
+	JSL.dom(".task-list li").removeClass("paused");
 }
 
 ///////////////////////////// Event Handlers ///////////////////////////////////
@@ -98,7 +98,7 @@ function startTask(task_id) {
 
 function pauseTask(task_id) {
 	var task_name = getTaskName(task_id);
-	$("timer-task").innerHTML = task_name + " [PAUSED]";
+	JSL.dom("timer-task").innerHTML = task_name + " [PAUSED]";
 	current_task_id = task_id;
 	clock.pause();
 	
@@ -154,15 +154,15 @@ function stopTask(task_id) {
 }
 
 function addTask(e) {
-	var task_name = $("name").value;
-	var task_start = $("task-start").checked.toString();
+	var task_name = JSL.dom("name").value;
+	var task_start = JSL.dom("task-start").checked.toString();
 
 	JSL.ajax(site_url+'tasks/new.php?action=Add&name='+task_name+'&task_start='+task_start+'&ajax=1').load(function(data) {
 		if(data.error) {
 			showMessage(error);
 			return;
 		}
-		var task_start = $("task-start").checked;
+		var task_start = JSL.dom("task-start").checked;
 
 		var li = document.createElement("li");
 		li.setAttribute('id',"task-"+data.task_id);
@@ -175,18 +175,19 @@ function addTask(e) {
 		li.appendChild(input);
 		li.appendChild(document.createTextNode(task_name));
 		JSL.dom(li).click(taskClickHandler);
-		$("task-list").appendChild(li);
+		var task_list = JSL.dom(".task-list");
+		if(task_list) task_list[0].appendChild(li);
 		
 		if(task_start) {
 			removePauseIndecators();
 			current_task_id = data.task_id;
 			current_task_duration_id = data.duration_id;
-			$("timer-task").innerHTML = task_name;
+			JSL.dom("timer-task").innerHTML = task_name;
 			clock.stop();
 			clock.start();
 		}
 	},'j');
-	$("name").value = '';
+	JSL.dom("name").value = '';
 	JSL.dom("add-task-form").toggle();
 	JSL.event(e).stop();
 }
