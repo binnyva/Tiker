@@ -1,3 +1,5 @@
+$=jQuery.noConflict();
+
 function padNumber(number,points) {
 	var number_string = number;
 	if(!number) number = 1;//0 Protection
@@ -11,8 +13,8 @@ function padNumber(number,points) {
 
 //Framework Specific
 function showMessage(data) {
-	if(data.success) $("success-message").innerHTML = stripSlashes(data.success);
-	if(data.error) $("error-message").innerHTML = stripSlashes(data.error);
+	if(data.success) $("#success-message").html(stripSlashes(data.success));
+	if(data.error) $("#error-message").html(stripSlashes(data.error));
 }
 function stripSlashes(text) {
 	if(!text) return "";
@@ -20,7 +22,6 @@ function stripSlashes(text) {
 }
 
 function makeCalender() {
-	console.log("Make");
 	calendar.opt['display_element'] = this.id;
 	calendar.opt['input'] = "day";
 	calendar.showCalendar();
@@ -37,7 +38,9 @@ function siteInit() {
 		var action = (this.title) ? this.title : "do this";
 		action = action.substr(0,1).toLowerCase() + action.substr(1); //Lowercase the first char.
 
-		if(!confirm("Are you sure you want to " + action + "?")) JSL.event(e).stop();
+		if(!confirm("Are you sure you want to " + action + "?")) {
+			e.stopPropagation();
+		}
 	});
 
 	if(document.getElementById("change-day")) calendar.set("change-day", {"onclick": makeCalender, "onDateSelect":setDate});
@@ -46,4 +49,4 @@ function siteInit() {
 	if(window.init) init(); //If there is a init() anywhere, call it on 'onload'
 	if(window.main) main(); //Same for main()
 }
-JSL.dom(window).load(siteInit);
+jQuery(window).load(siteInit);

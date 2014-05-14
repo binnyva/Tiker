@@ -1,5 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html><head>
+<!DOCTYPE HTML>
+<html lang="en"><head>
 <title><?php echo $title?></title>
 <link href="<?php echo $abs?>css/style.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo $abs?>images/silk_theme.css" rel="stylesheet" type="text/css" />
@@ -9,7 +9,7 @@
 <body>
 <div id="loading">loading...</div>
 <div id="header">
-<h1 id="logo"><a href="<?php echo $abs?>"><?php echo $title?></a></h1>
+<h1 id="logo"><a href="<?php echo $abs?>"><?php echo $config['site_title'] ?></a></h1>
 
 <div id="navigation">
 <?php if(!isset($_SESSION['user_id'])) { ?>
@@ -48,7 +48,7 @@ include($GLOBALS['template']->template);
 ?>
 <!-- End Content -->
 
-<script src="<?php echo $abs?>js/library/jsl.js" type="text/javascript"></script>
+<script src="<?php echo $abs?>bower_components/jquery/dist/jquery.min.js" type="text/javascript"></script>
 <script src="<?php echo $abs?>js/application.js" type="text/javascript"></script>
 <script src="<?php echo $abs?>js/library/calendar/calendar.js" type="text/javascript"></script>
 <script type="text/javascript">

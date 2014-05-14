@@ -1,11 +1,10 @@
 function init() {
-	if(document.getElementById("edit-task-link")) $("edit-task-link").click(showEditForm);
+	if(document.getElementById("edit-task-link")) $("#edit-task-link").click(showEditForm);
 }
 
-
 function showEditForm(e) {
-	JSL.event(e).stop();
+	e.stopPropogation();
 	
-	$("edit-task-form").show();
-	$("edit-task-link").innerHTML = "Edit Task...";
+	$("#edit-task-form").show();
+	$("#edit-task-link").html("Edit Task...");
 }

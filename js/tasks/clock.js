@@ -39,12 +39,12 @@ clock = {
 		this.updateView();
 	},
 	'updateView' : function() {
-		$("timer-hours").innerHTML= padNumber(this.hours,2);
-		$("timer-mins").innerHTML = padNumber(this.minutes,2);
-		$("timer-secs").innerHTML = padNumber(this.seconds,2);
+		$("#timer-hours").html(padNumber(this.hours,2));
+		$("#timer-mins").html(padNumber(this.minutes,2));
+		$("#timer-secs").html(padNumber(this.seconds,2));
 		
-		$("timer-total-hours").innerHTML= padNumber(this.total.hours,2);
-		$("timer-total-mins").innerHTML = padNumber(this.total.minutes,2);
+		$("#timer-total-hours").html(padNumber(this.total.hours,2));
+		$("#timer-total-mins").html(padNumber(this.total.minutes,2));
 	}
 }
 

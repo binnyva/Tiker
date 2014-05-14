@@ -1,5 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html><head>
+<!DOCTYPE HTML>
+<html lang="en"><head>
 <title><?php echo $title ?></title>
 <link href="<?php echo $config['site_url']?>css/style.css" rel="stylesheet" type="text/css" />
 <?php echo $css_includes?>
@@ -59,7 +59,7 @@ continueTask(<?php echo $task['id']?>);
 
 </form>
 
-<script src="<?php echo $abs?>js/library/jsl.js" type="text/javascript"></script>
+<script src="<?php echo $abs?>bower_components/jquery/dist/jquery.min.js" type="text/javascript"></script>
 <script src="<?php echo $abs?>js/application.js" type="text/javascript"></script>
 <script type="text/javascript">
 site_url = "<?php echo $config['site_url']; ?>";
