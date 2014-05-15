@@ -179,20 +179,26 @@ function addTask(e) {
 				}
 				var task_start = jQuery("#task-start").attr("checked");
 
-				var li = document.createElement("li");
-				li.setAttribute('id',"task-"+data.task_id);
-				if(task_start) li.className = 'working';
-				var input = document.createElement("input");
-				input.setAttribute("type","checkbox");
-				input.setAttribute("id","task-done-"+data.task_id);
-				input.setAttribute("value",data.task_id);
-				input.onclick=taskDoneClickHandler;
-				li.appendChild(input);
-				li.appendChild(document.createTextNode(task_name));
-				jQuery(li).click(taskClickHandler);
+				var li = $("<li>", {
+						"class": (task_start) ? "working" : "added", 
+						"id": "task-"+data.task_id, 
+					}).click(taskClickHandler);
+				var input = $("<input>", {
+						"type": "checkbox", 
+						"id": "task-done-"+data.task_id, 
+						"value":data.task_id
+					}).click(taskDoneClickHandler);
+				li.append(input).append($("<span>", {"text":task_name}));
+
 				var task_list = jQuery("#once-task-list");
 				task_list.append(li);
 
+				// Show the Once Tab.
+				jQuery("#tabs li").removeClass("active");
+				jQuery("#tab-once-task-list").addClass("active");
+
+				jQuery(".task-list").hide();
+				task_list.show();
 				
 				if(task_start) {
 					removePauseIndecators();
@@ -202,6 +208,7 @@ function addTask(e) {
 					clock.stop();
 					clock.start();
 				}
+				
 			}
 		});
 	jQuery("#name").val("");

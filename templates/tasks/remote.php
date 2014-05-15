@@ -17,8 +17,8 @@ Total Time <span id="timer-total-hours">00</span>:<span id="timer-total-mins">00
 </div>
 
 <ul id="tabs">
-<li class="active"><a href="#once-task-list">Once</a></li>
-<li><a href="#recurring-task-list">Recurring</a></li>
+<li class="active" id="tab-once-task-list"><a href="#once-task-list">Once</a></li>
+<li id="tab-task-list"><a href="#recurring-task-list">Recurring</a></li>
 </ul>
 
 <ul id="once-task-list" class="task-list">
