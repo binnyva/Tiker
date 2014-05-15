@@ -59,7 +59,7 @@ continueTask(<?php echo $task['id']?>);
 
 </form>
 
-<script src="<?php echo $abs?>bower_components/jquery/dist/jquery.min.js" type="text/javascript"></script>
+<script src="<?php echo $abs?>bower_components/jquery/dist/jquery.js" type="text/javascript"></script>
 <script src="<?php echo $abs?>js/application.js" type="text/javascript"></script>
 <script type="text/javascript">
 site_url = "<?php echo $config['site_url']; ?>";

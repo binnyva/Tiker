@@ -192,6 +192,7 @@ function addTask(e) {
 				jQuery(li).click(taskClickHandler);
 				var task_list = jQuery("#once-task-list");
 				task_list.append(li);
+
 				
 				if(task_start) {
 					removePauseIndecators();

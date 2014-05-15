@@ -60,7 +60,7 @@
 	border-radius: 3px 3px 0 0;
 }
 #tabs li.active {
-	border-bottom: 1px solid #fff;
+	border-bottom: 2px solid #fff;
 }
 #recurring-task-list {
 	display: none;

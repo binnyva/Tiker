@@ -48,7 +48,7 @@ include($GLOBALS['template']->template);
 ?>
 <!-- End Content -->
 
-<script src="<?php echo $abs?>bower_components/jquery/dist/jquery.min.js" type="text/javascript"></script>
+<script src="<?php echo $abs?>bower_components/jquery/dist/jquery.js" type="text/javascript"></script>
 <script src="<?php echo $abs?>js/application.js" type="text/javascript"></script>
 <script src="<?php echo $abs?>js/library/calendar/calendar.js" type="text/javascript"></script>
 <script type="text/javascript">
