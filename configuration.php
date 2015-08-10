@@ -7,4 +7,5 @@ $config = array(
 	'db_password'	=>	'',
 	'db_database'	=>	'Project_Tiker',
 	'site_title'	=>	'Tiker',
+	'single_user'	=>	1,
 );

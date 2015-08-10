@@ -1,0 +1,27 @@
+{
+  "name": "Tiker",
+  "version": "1.00.C",
+  "homepage": "https://github.com/binnyva/tiker",
+  "authors": [
+    "Binny V A <binnyva@gmail.com>"
+  ],
+  "description": "Time Tracking Tool.",
+  "main": "index.php",
+  "keywords": [
+    "time",
+    "track",
+    "web",
+    "tracker"
+  ],
+  "license": "BSD",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.0"
+  }
+}
