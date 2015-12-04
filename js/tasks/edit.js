@@ -3,8 +3,10 @@ function init() {
 }
 
 function showEditForm(e) {
-	e.stopPropogation();
+	e.stopPropagation();
 	
 	$("#edit-task-form").show();
 	$("#edit-task-link").html("Edit Task...");
+	
+	return false;
 }

@@ -7,8 +7,8 @@ function init() {
 
 	jQuery("#tabs li a").click(activateTab);
 	
-	jQuery(".task-list li").click(taskClickHandler);
 	jQuery(".task-list li input").click(taskDoneClickHandler);
+	jQuery(".task-list li").click(taskClickHandler);
 
 	jQuery("#add-task-form").submit(addTask);
 	jQuery("#cancel-add-task").click(hideTaskForm);
@@ -46,10 +46,11 @@ function removePauseIndecators() {
 }
 
 ///////////////////////////// Event Handlers ///////////////////////////////////
-/// Called when the checkbox next to the task is clicked - ends the task. But if the task is a recurring one, it will just pasue the task.
+/// Called when the checkbox next to the task is clicked - ends the task. But if the task is a recurring one, it will just pause the task.
 function taskDoneClickHandler(e) {
 	var task_id = this.value;
 	stopTask(task_id);
+	e.stopPropagation();
 }
 
 /// This happens when a task is clicked - it toggles between starts and pause for that task.

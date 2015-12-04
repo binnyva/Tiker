@@ -3,10 +3,16 @@ require_once(joinPath($config['site_folder'], 'models/Task.php'));
 require_once(joinPath($config['site_folder'], 'models/User.php'));
 
 $User = new User;
+checkUser();
 
 //////////////////////////////////// Authenitication Checks ////////////////////////////////////
 function checkUser($redirect = true) {
 	global $config;
+
+	if(isset($config['single_user']) and $config['single_user']) {
+		$_SESSION['user_id'] = $config['single_user'];
+		return true;
+	}
 	
 	if((!isset($_SESSION['user_id']) or !$_SESSION['user_id'])) {
 		if($redirect) showMessage("Please login to use this feature", $config['site_url'] . 'user/login.php', "error");
@@ -18,8 +24,11 @@ function checkUser($redirect = true) {
 /// See if the given task's owner is the currently logined user.
 function checkTaskOwnership($task_id, $return_only = false) {
 	global $sql;
-	$task_owner = $sql->getOne("SELECT user_id FROM Task WHERE id=$task_id");
-	$correct_owner = ($task_owner == $_SESSION['user_id']);
+	if(empty($_SESSION['user_id'])) $correct_owner = 0;
+	else {
+		$task_owner = $sql->getOne("SELECT user_id FROM Task WHERE id=$task_id");
+		$correct_owner = ($task_owner == $_SESSION['user_id']);
+	}
 		
 	if($return_only) return $correct_owner;
 	if(!$correct_owner) showMessage("That task don't belong to you.", 'index.php', 'error');
