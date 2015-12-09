@@ -62,6 +62,10 @@ continueTask(<?php echo $task['id']?>);
 
 </form>
 
+<div style="text-align:right;">
+<input type="button" id="refresh" value="Refresh" />
+</div>
+
 <script src="<?php echo $abs?>bower_components/jquery/dist/jquery.js" type="text/javascript"></script>
 <script src="<?php echo $abs?>js/application.js" type="text/javascript"></script>
 <script type="text/javascript">

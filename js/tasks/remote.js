@@ -12,8 +12,13 @@ function init() {
 
 	jQuery("#add-task-form").submit(addTask);
 	jQuery("#cancel-add-task").click(hideTaskForm);
+	$("#refresh").click(refreshPage);
 	shortcut.add("Alt+z", showTaskForm);
 	shortcut.add("Alt+;", showTaskForm);//Dovark
+}
+
+function refreshPage () {
+	document.location.reload();
 }
 
 function activateTab(e) {
