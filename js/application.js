@@ -33,6 +33,13 @@ function setDate(year, month, day) {
 	document.getElementById("change-day-form").submit();
 }
 
+function loading() {
+	$("#loading").show();
+}
+function loaded() {
+	$("#loading").hide();
+}
+
 function siteInit() {
 	$("a.confirm").click(function(e) { //If a link has a confirm class, confrm the action
 		var action = (this.title) ? this.title : "do this";

@@ -31,25 +31,6 @@ foreach($last_10_tasks as $this_task) {
 	array_push($last_tasks, $task);
 }
 
-// This is need for the remote embedding.
-$tasks = $sql->getAll("SELECT Task.id, Task.name, Task.status, Duration.id AS duration_id, Duration.to_time "
-	. " FROM Task INNER JOIN Duration ON Duration.task_id = Task.id "
-	. " WHERE status = 'working' AND Task.user_id=$_SESSION[user_id] "
-	. " AND Duration.id=(SELECT MAX(id) FROM Duration WHERE task_id=Task.id) "
-	. " GROUP BY Task.id ORDER BY Task.type");
-
-//Get the active tasks
-$active_tasks = array();
-foreach($tasks as $task) {
-	if($task['to_time'] == '0000-00-00 00:00:00') {
-		$active_tasks[] = array(
-			'id'	=>	$task['id'],
-			'name'	=>	$task['name']
-		);
-	}
-}
-
-
 include('reports/_day_report.php');
 
 $html = new HTML;

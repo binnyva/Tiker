@@ -4,6 +4,13 @@
 .edit {background-image:url(silk_icons/pencil.png);}
 .delete {background-image:url(silk_icons/bin_empty.png);}
 
+/* Active/Deactive */
+.deactivate {background-image:url(silk_icons/cross.png);}
+.activate {background-image:url(silk_icons/tick.png);}
+/* Activate/Deactivate - oppostite of active/deactive */
+.active {background-image:url(silk_icons/tick.png);}
+.deactive,.inactive {background-image:url(silk_icons/cross.png);}
+
 /*Paging*/
 .page-next,.next {background-image:url(silk_icons/resultset_next.png);}
 .page-back,.previous,.page-previous {background-image:url(silk_icons/resultset_previous.png);}
@@ -14,7 +21,7 @@
 /*Common Stuff*/
 .settings {background-image:url(silk_icons/wrench.png);}
 .logout {background-image:url(silk_icons/door_out.png);}
-.calendar {background-image:url(silk_icons/calendar.png);}
+.calendar,.date {background-image:url(silk_icons/calendar.png);}
 .info {background-image:url(silk_icons/information.png);}
 .plugin {background-image:url(silk_icons/plugin.png);}
 .search {background-image:url(silk_icons/find.png);}
@@ -28,6 +35,8 @@
 .idea {background-image:url(silk_icons/lightbulb.png);}
 .print {background-image:url(silk_icons/printer.png);}
 .folder {background-image:url(silk_icons/folder.png);}
+.email,.mail,.write {background-image:url(silk_icons/email.png);}
+.phone,.sms {background-image:url(silk_icons/phone.png);}
 
 
 #warning-message,.warning {background-image:url(silk_icons/error.png);}
@@ -36,6 +45,4 @@
 
 /*Project Specific Stuff*/
 
-.menu-with-icon li {
-background-position:4px 5px;
-}
+.menu-with-icon li {background-position:4px 5px;}

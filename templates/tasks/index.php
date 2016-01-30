@@ -1,6 +1,7 @@
 <h1>Tasks</h1>
 
-<table class="listing-table">
+<table class="table table-stripped">
+<tr><th>Task</th><th>Completed On</th><th>Type</th><th colspan="2">Action</th>
 <?php
 $row = 0;
 foreach($tasks as $task) {
@@ -16,8 +17,9 @@ else print $task['completion_time'];
 ?></td>
 <td><?=ucfirst($task['type'])?></td>
 
-<td class="action"><a class="icon edit" href="edit.php?task=<?=$id?>&amp;action=show_form">Edit</a></td><td class="action"><a class="icon delete confirm" href="delete.php?task=<?=$id?>">Delete</a></td></tr>
+<td class="action"><a class="icon edit" href="edit.php?task=<?=$id?>&amp;action=show_form">Edit</a></td>
+<td class="action"><a class="icon delete confirm" href="delete.php?task=<?=$id?>">Delete</a></td></tr>
 <?php } ?>
-</table><br />
+</table>
 
 <?php printPager(); ?>

@@ -92,17 +92,21 @@ function startTask(task_id) {
 	jQuery("#task-"+task_id).removeClass("paused");
 	removePauseIndecators();
 
+	loading();
 	$.ajax({
-			"url": site_url+"tasks/duration.php?ajax=1&action=start&task_id="+task_id,
-			"dataType": 'json',
-			"success": function(data) {
-				clock.total.minutes = data.total_time_minutes;
-				clock.total.hours = data.total_time_hours;
-				clock.start();
-				current_task_duration_id = data.duration_id;
-			}
-		});
-	
+		"url": site_url+"tasks/duration.php?ajax=1&action=start&task_id="+task_id,
+		"dataType": 'json',
+		"success": function(data) {
+			clock.total.minutes = data.total_time_minutes;
+			clock.total.hours = data.total_time_hours;
+			clock.start();
+			current_task_duration_id = data.duration_id;
+		},
+		"error" : function(data) {
+			loaded();
+			alert("Error retriving data from server.");
+		}
+	});
 }
 
 function pauseTask(task_id) {
@@ -117,13 +121,18 @@ function pauseTask(task_id) {
 	task_item.addClass("paused");
 	task_item.removeClass("working");
 
+	loading();
 	//Almost nothing will be returned for this call.
 	$.ajax({
-			"url": site_url+"tasks/duration.php?ajax=1&action=pause&task_id="+task_id,
-			"success": function(data) {
-					current_task_duration_id = 0;
-				}
-			});
+		"url": site_url+"tasks/duration.php?ajax=1&action=pause&task_id="+task_id,
+		"success": function(data) {
+			current_task_duration_id = 0;
+		},
+		"error" : function(data) {
+			loaded();
+			alert("Error retriving data from server.");
+		}
+	});
 }
 
 //If the user closes the popup without stoping/pausing the task - the task will continue 
@@ -133,12 +142,14 @@ function continueTask(task_id) {
 	var task_name = getTaskName(task_id);
 	jQuery("#timer-task").html(task_name);
 	current_task_id = task_id;
-	
+	loading();
+
 	//Returns should be duration_id, total_time_minutes, total_time_hours, time_taken_hours, time_taken_mins, time_taken_secs
 	$.ajax({
 		"url": site_url+"tasks/duration.php?ajax=1&action=continue&task_id="+task_id,
 		"dataType": "json",
 		"success": function(data) {
+			loaded();
 			clock.total.minutes	= data.total_time_minutes;
 			clock.total.hours	= data.total_time_hours;
 			clock.hours			= data.time_taken_hours;
@@ -146,15 +157,21 @@ function continueTask(task_id) {
 			clock.seconds		= data.time_taken_secs;
 			clock.start();
 			current_task_duration_id = data.duration_id;
+		},
+		"error" : function(data) {
+			loaded();
+			alert("Error retriving data from server.");
 		}
 	});
 }
 
 function stopTask(task_id) {
+	loading();
 	$.ajax({
 		"url": site_url+"tasks/duration.php?ajax=1&action=done&task_id="+task_id,
 		"dataType" : "json",
 		"success": function(data) {
+			loaded();
 			if(data.success) { // The task is done, remove the entry
 				jQuery("#timer-task").html("");
 				current_task_id = 0;
@@ -168,54 +185,68 @@ function stopTask(task_id) {
 					pauseTask(task_id);
 				}
 			}
-		}});
+		},
+		"error" : function(data) {
+			loaded();
+			alert("Error retriving data from server.");
+		}
+	});
 }
 
 function addTask(e) {
 	var task_name = jQuery("#name").val();
+	var task_name_url = encodeURI(task_name);
 	var task_start = jQuery("#task-start").attr("checked").toString();
 
+	loading();
 	$.ajax({
-			"url": site_url+'tasks/new.php?action=Add&name='+task_name+'&task_start='+task_start+'&ajax=1',
-			"dataType": "json",
-			"success": function(data) {
-				if(data.error) {
-					showMessage(error);
-					return;
-				}
-				var task_start = jQuery("#task-start").attr("checked");
+		"url": site_url+'tasks/new.php',
+		"dataType": "json",
+		"data": 'action=Add&name='+task_name_url+'&task_start='+task_start+'&ajax=1',
+		"method": 'POST',
+		"success": function(data) {
+			loaded();
 
-				var li = $("<li>", {
-						"class": (task_start) ? "working" : "added", 
-						"id": "task-"+data.task_id, 
-					}).click(taskClickHandler);
-				var input = $("<input>", {
-						"type": "checkbox", 
-						"id": "task-done-"+data.task_id, 
-						"value":data.task_id
-					}).click(taskDoneClickHandler);
-				li.append(input).append($("<span>", {"text":task_name}));
-
-				var task_list = jQuery("#once-task-list");
-				task_list.append(li);
-
-				// Show the Once Tab.
-				jQuery("#tabs li").removeClass("active");
-				jQuery("#tab-once-task-list").addClass("active");
-
-				jQuery(".task-list").hide();
-				task_list.show();
-				
-				if(task_start) {
-					removePauseIndecators();
-					current_task_id = data.task_id;
-					current_task_duration_id = data.duration_id;
-					jQuery("#timer-task").innerHTML = task_name;
-					clock.stop();
-					clock.start();
-				}
-				
+			if(data.error) {
+				showMessage(error);
+				return;
 			}
+			var task_start = jQuery("#task-start").attr("checked");
+
+			var li = $("<li>", {
+					"class": (task_start) ? "working" : "added", 
+					"id": "task-"+data.task_id, 
+				}).click(taskClickHandler);
+			var input = $("<input>", {
+					"type": "checkbox", 
+					"id": "task-done-"+data.task_id, 
+					"value":data.task_id
+				}).click(taskDoneClickHandler);
+			li.append(input).append($("<span>", {"text":task_name}));
+
+			var task_list = jQuery("#once-task-list");
+			task_list.append(li);
+
+			// Show the Once Tab.
+			jQuery("#tabs li").removeClass("active");
+			jQuery("#tab-once-task-list").addClass("active");
+
+			jQuery(".task-list").hide();
+			task_list.show();
+			
+			if(task_start) {
+				removePauseIndecators();
+				current_task_id = data.task_id;
+				current_task_duration_id = data.duration_id;
+				jQuery("#timer-task").html(task_name);
+				clock.stop();
+				clock.start();
+			}	
+		},
+		"error" : function(data) {
+			loaded();
+			alert("Error retriving data from server.");
+		}
 		});
 	jQuery("#name").val("");
 	jQuery("#add-task-form").toggle();
