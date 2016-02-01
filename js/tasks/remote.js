@@ -97,6 +97,7 @@ function startTask(task_id) {
 		"url": site_url+"tasks/duration.php?ajax=1&action=start&task_id="+task_id,
 		"dataType": 'json',
 		"success": function(data) {
+			loaded();
 			clock.total.minutes = data.total_time_minutes;
 			clock.total.hours = data.total_time_hours;
 			clock.start();
@@ -126,6 +127,7 @@ function pauseTask(task_id) {
 	$.ajax({
 		"url": site_url+"tasks/duration.php?ajax=1&action=pause&task_id="+task_id,
 		"success": function(data) {
+			loaded();
 			current_task_duration_id = 0;
 		},
 		"error" : function(data) {
