@@ -31,16 +31,34 @@ function activateTab(e) {
 	jQuery("#"+tab).show();
 }
 
+/// The argument 'tab' should either 'once' or 'recurring'
+function openTab(tab) {
+	var tab_id = "tab-once-task-list";
+	var tab_content_id = "once-task-list";
+	if(tab == "recurring") {
+		tab_id = "tab-task-list";
+		tab_content_id = "recurring-task-list";
+	}
+
+	jQuery("#tabs li").removeClass("active");
+	jQuery("#" + tab_id).addClass("active");
+
+	jQuery(".task-list").hide();
+	jQuery("#"+tab_content_id).show();
+}
+
 function showTaskForm(e) {
 	shortcut.add("Escape", hideTaskForm);
 	shortcut.add("Enter", addTask);
 	
+	jQuery("#show-add-task-form").toggle();
 	jQuery("#add-task-form").toggle();
 	jQuery("#name").focus();
 	e.stopPropagation();
 	return false;
 }
 function hideTaskForm() {
+	jQuery("#show-add-task-form").toggle();
 	jQuery("#add-task-form").hide();
 	shortcut.remove("Escape");
 	shortcut.remove("Enter");
@@ -159,6 +177,8 @@ function continueTask(task_id) {
 			clock.seconds		= data.time_taken_secs;
 			clock.start();
 			current_task_duration_id = data.duration_id;
+
+			openTab(data.type);
 		},
 		"error" : function(data) {
 			loaded();

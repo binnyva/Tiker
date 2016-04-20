@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title><?php echo $title ?></title>
 <link href="<?php echo $config['site_url']?>css/style.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo $config['site_url']; ?>bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="<?php echo $config['site_url']; ?>bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet">
 <?php echo $css_includes?>
 </head>
 <body>
@@ -53,18 +55,17 @@ continueTask(<?php echo $task['id']?>);
 <?php } ?>
 
 <br />
-<a href="?action=add_form" id="show-add-task-form" accesskey="z">Add Task</a>
-<form action="new.php" method="post" id="add-task-form" class="form-area">
+<a href="?action=add_form" id="show-add-task-form" class="btn btn-primary" accesskey="z">Add Task</a>
+<form action="new.php" method="post" id="add-task-form">
 <?php $html->buildInput('name','Task','textarea','',array('cols'=>'30')); ?>
-<label>&nbsp;</label><input type='submit' name="action" value="Add" />
-<input type='button' id="cancel-add-task" value="Cancel" /><br />
 <?php $html->buildInput('task-start','Start Task?','checkbox', '', array('checked'=>'checked')); ?>
+
+<input type='submit' name="action" value="Add" class="btn btn-primary" />
+<input type='button' id="cancel-add-task" value="Cancel" class="btn btn-info btn-sm pull-right" /><br />
 
 </form>
 
-<div style="text-align:right;">
-<input type="button" id="refresh" value="Refresh" />
-</div>
+<input type="button" id="refresh" value="Refresh" class="btn btn-success pull-right" />
 
 <script src="<?php echo $abs?>bower_components/jquery/dist/jquery.js" type="text/javascript"></script>
 <script src="<?php echo $abs?>js/application.js" type="text/javascript"></script>

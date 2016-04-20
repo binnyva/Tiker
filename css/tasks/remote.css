@@ -35,6 +35,9 @@
 .task-list li.working:hover {
 	background:#0f0;
 }
+.task-list li input {
+	padding: 5px 5px 0 0;
+}
 
 .status-paused {
 	background:#b7aeff;

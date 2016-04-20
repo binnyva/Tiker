@@ -40,6 +40,7 @@ if(isRequest('action','start')) {
 
 	$data = array(
 		'duration_id'		=>	$durations['id'],
+		'type'				=>	$durations['type'],
 		'total_time_minutes'=>	$times[1],
 		'total_time_hours'	=>	$times[0],
 		'time_taken_hours'	=>	$time_taken_so_far[0],

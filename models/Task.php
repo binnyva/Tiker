@@ -149,9 +149,10 @@ class Task extends DBTable {
 	/// When the user restarts a paused task, he gets info on how much time the CURRENT DURATION as already taken.
 	function continueTimer($task_id) {
 		global $sql;
-		$duration_details = $sql->getAssoc("SELECT id, UNIX_TIMESTAMP(NOW()) - UNIX_TIMESTAMP(from_time) AS time_taken "
-										. "  FROM Duration WHERE task_id=$task_id "
-										. " AND to_time='0000-00-00 00:00:00' ORDER BY from_time DESC LIMIT 0,1");
+		$duration_details = $sql->getAssoc("SELECT D.id, UNIX_TIMESTAMP(NOW()) - UNIX_TIMESTAMP(from_time) AS time_taken, T.type
+												FROM Duration D INNER JOIN Task T ON T.id=D.task_id 
+												WHERE task_id=$task_id AND to_time='0000-00-00 00:00:00' 
+												ORDER BY from_time DESC LIMIT 0,1");
 		return $duration_details;
 	}
 	
