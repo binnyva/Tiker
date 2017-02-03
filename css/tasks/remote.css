@@ -25,8 +25,16 @@
 
 .task-list {
 	list-style:none;
-	margin:10px 0 0 0;
+	margin:0;
 	padding:0;
+}
+.task-list li {
+	font-size:110%;
+	height: 40px;
+	line-height: 40px;
+}
+.task-list li:nth-child(even) {
+	background-color: #eee;
 }
 .task-list li:hover {
 	background:#ddd;
@@ -36,34 +44,61 @@
 	background:#0f0;
 }
 .task-list li input {
-	padding: 5px 5px 0 0;
+	margin: 0 5px 0 10px;
+	transform: scale(1.5);
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+}
+#recurring-task-list.task-list li input {
+	display: none;
+}
+#recurring-task-list.task-list li {
+	padding-left: 5px;
 }
 
 .status-paused {
-	background:#b7aeff;
+	background:#b7aeff !important;
 }
 .working {
-	background:#0f0;
+	font-weight: bold;
+	background:#0f0 !important;
 }
 .paused {
-	background:#008183;
+	background:#008183 !important;
 }
 
 #tabs {
 	list-style: none;
 	margin:10px 0 0 0;
 	padding: 0;
-	border-bottom:1px solid #000;
+	line-height: 24px;
+	position: relative;
+}
+
+#tabs:after {
+	position: absolute;
+	content: "";
+	width: 100%;
+	bottom: 0;
+	left: 0;
+	border-bottom: 1px solid #aaa;
+	z-index: 1;
 }
 #tabs li {
-	display: inline;
-	border:1px solid #000;
+	display: inline-block;
+	border:1px solid #aaa;
 	border-bottom: 0px;
 	padding:5px 5px 0 5px;
 	border-radius: 3px 3px 0 0;
+	z-index: 0;
+	position: relative;
 }
 #tabs li.active {
 	border-bottom: 2px solid #fff;
+	z-index: 2;
+}
+#tabs li a {
+	text-decoration: none;
 }
 #recurring-task-list {
 	display: none;
