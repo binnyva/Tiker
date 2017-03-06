@@ -11,7 +11,7 @@
 </head>
 <body>
 <div id="loading">loading...</div>
-
+<div id="progress"></div>
 <div id="timer">
 <div id="timer-total">
 Total Time <span id="timer-total-hours">00</span>:<span id="timer-total-mins">00</span>

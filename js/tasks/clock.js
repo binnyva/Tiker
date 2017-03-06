@@ -3,6 +3,7 @@ clock = {
 	'seconds':0,
 	'minutes':0,
 	'hours':0,
+	'estimate':0,
 	'total':{
 		'minutes':0,
 		'hours':0
@@ -45,6 +46,26 @@ clock = {
 		
 		$("#timer-total-hours").html(padNumber(this.total.hours,2));
 		$("#timer-total-mins").html(padNumber(this.total.minutes,2));
+
+		// Update progress indicator if task has a estimated time...
+		if(this.minutes && !this.seconds && this.estimate) {
+			if(this.time_left_in_mins == 0) {
+				$("body").addClass("timeout");
+				// var sound = new Howl({  urls: ['images/sounds/bell.mp3']}).play();
+			}
+
+			var percent_complete = 0;
+			if(this.estimate != this.time_left_in_mins && this.time_left_in_mins < this.estimate) {
+				percent_complete = Math.floor((this.estimate - this.time_left_in_mins) / this.estimate * 100);
+				$("#progress").css({"width":percent_complete+"%"});
+			}
+
+			this.time_left_in_mins--;
+		}
+	},
+	'setEstimate' : function(estimate) {
+		this.estimate = estimate;
+		this.time_left_in_mins = this.estimate - (this.hours * 60) + this.minutes;
 	}
 }
 

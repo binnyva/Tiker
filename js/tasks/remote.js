@@ -119,6 +119,10 @@ function startTask(task_id) {
 			clock.total.minutes = data.total_time_minutes;
 			clock.total.hours = data.total_time_hours;
 			clock.start();
+
+			var estimate = calculateEstimate(task_name);
+			clock.setEstimate(estimate);
+
 			current_task_duration_id = data.duration_id;
 		},
 		"error" : function(data) {
@@ -176,6 +180,10 @@ function continueTask(task_id) {
 			clock.minutes		= data.time_taken_mins;
 			clock.seconds		= data.time_taken_secs;
 			clock.start();
+
+			var estimate = calculateEstimate(task_name);
+			clock.setEstimate(estimate);
+
 			current_task_duration_id = data.duration_id;
 
 			openTab(data.type);
@@ -263,6 +271,9 @@ function addTask(e) {
 				jQuery("#timer-task").html(task_name);
 				clock.stop();
 				clock.start();
+
+				var estimate = calculateEstimate(task_name);
+				clock.setEstimate(estimate);
 			}	
 		},
 		"error" : function(data) {
@@ -277,3 +288,12 @@ function addTask(e) {
 	return false;
 }
 
+function calculateEstimate(task_name) {
+	var estimate = 0;
+
+	var parts = task_name.split(":");
+	var time = parts.pop();
+
+	
+	return estimate;
+}

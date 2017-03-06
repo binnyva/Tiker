@@ -27,6 +27,7 @@
 	list-style:none;
 	margin:0;
 	padding:0;
+	background-color: #fff;
 }
 .task-list li {
 	font-size:110%;
@@ -92,6 +93,7 @@
 	border-radius: 3px 3px 0 0;
 	z-index: 0;
 	position: relative;
+	background-color: #fff;
 }
 #tabs li.active {
 	border-bottom: 2px solid #fff;
@@ -105,6 +107,15 @@
 }
 
 
+#progress {
+	background-color:#f1632a;
+	height:100%;
+	width:0;
+	position: absolute;
+	top:0;
+	left: 0;
+	z-index: -10;
+}
 /* Override Layout styles */
 body {
 	margin:5px;
