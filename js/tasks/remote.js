@@ -179,10 +179,9 @@ function continueTask(task_id) {
 			clock.hours			= data.time_taken_hours;
 			clock.minutes		= data.time_taken_mins;
 			clock.seconds		= data.time_taken_secs;
-			clock.start();
-
 			var estimate = calculateEstimate(task_name);
 			clock.setEstimate(estimate);
+			clock.start();
 
 			current_task_duration_id = data.duration_id;
 
@@ -252,7 +251,7 @@ function addTask(e) {
 					"id": "task-done-"+data.task_id, 
 					"value":data.task_id
 				}).click(taskDoneClickHandler);
-			li.append(input).append($("<span>", {"text":task_name}));
+			li.append(input).append($("<span>", {"text":task_name, "class":"task-name"}));
 
 			var task_list = jQuery("#once-task-list");
 			task_list.append(li);
@@ -291,9 +290,28 @@ function addTask(e) {
 function calculateEstimate(task_name) {
 	var estimate = 0;
 
-	var parts = task_name.split(":");
-	var time = parts.pop();
+	var matches = task_name.match(/(\d+) M(in)?(ute)?s?/i);
+	if(matches) {
+		estimate += Number(matches[1]);
+	}
+	matches = task_name.match(/(\d+) H(ou)?r?s?/i);
+	if(matches) {
+		estimate += Number(matches[1]) * 60;
+	}
 
-	
 	return estimate;
+}
+
+function fixTaskNameWidth() {
+	var container_width = $(".task-list").width();
+	var span_length = $(".working .task-name").html().length;
+
+    var width_ratio = Math.floor((container_width / span_length) * 1.8);
+    var max = 18;
+    var min = 6;
+    if(width_ratio > max) width_ratio = max;
+    if(width_ratio < min) width_ratio = min;
+
+    $(".working .task-name").css('font-size', width_ratio + 'px');
+	// console.log(container_width, span_length, width_ratio);
 }

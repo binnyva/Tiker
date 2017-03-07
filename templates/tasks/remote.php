@@ -30,7 +30,7 @@ Total Time <span id="timer-total-hours">00</span>:<span id="timer-total-mins">00
 <?php foreach($tasks as $task) { ?>
 <li id="task-<?php echo $task['id']?>">
 <input type="checkbox" id="task-done-<?php echo $task['id']?>" value="<?php echo $task['id']?>" />
-<?php echo $task['name']?></li>
+<span class="task-name"><?php echo $task['name']?></span></li>
 
 <?php } ?>
 </ul>
@@ -39,7 +39,7 @@ Total Time <span id="timer-total-hours">00</span>:<span id="timer-total-mins">00
 <?php foreach($recurring_tasks as $task) { ?>
 <li id="task-<?php echo $task['id']?>">
 <input type="checkbox" id="task-done-<?php echo $task['id']?>" value="<?php echo $task['id']?>" />
-<?php echo $task['name']?></li>
+<span class="task-name"><?php echo $task['name'] ?></span></li>
 
 <?php } ?>
 </ul>

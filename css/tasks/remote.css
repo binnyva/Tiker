@@ -19,8 +19,10 @@
 }
 #timer-total {
 	float:right;
+	padding: 0 3px;
 	background-color:#cac9ff;
-	border:1px solid #9ea3e3;
+	border-left:1px solid #9ea3e3;
+	border-bottom:1px solid #9ea3e3;
 }
 
 .task-list {
@@ -31,8 +33,10 @@
 }
 .task-list li {
 	font-size:110%;
-	height: 40px;
 	line-height: 40px;
+}
+.task-list li span {
+	display: inline;
 }
 .task-list li:nth-child(even) {
 	background-color: #eee;
@@ -60,8 +64,10 @@
 .status-paused {
 	background:#b7aeff !important;
 }
-.working {
+.task-list li.working {
 	font-weight: bold;
+	/*font-size: 3.7vw;*/
+	/*line-height: 25px;*/
 	background:#0f0 !important;
 }
 .paused {
@@ -108,7 +114,7 @@
 
 
 #progress {
-	background-color:#f1632a;
+	background-color:#9ea3e3;
 	height:100%;
 	width:0;
 	position: absolute;
