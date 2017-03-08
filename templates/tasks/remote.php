@@ -12,6 +12,7 @@
 <body>
 <div id="loading">loading...</div>
 <div id="progress"></div>
+<div class="container">
 <div id="timer">
 <div id="timer-total">
 Total Time <span id="timer-total-hours">00</span>:<span id="timer-total-mins">00</span>
@@ -55,17 +56,25 @@ continueTask(<?php echo $task['id']?>);
 <?php } ?>
 
 <br />
-<a href="?action=add_form" id="show-add-task-form" class="btn btn-primary" accesskey="z">Add Task</a>
-<form action="new.php" method="post" id="add-task-form">
-<?php $html->buildInput('name','Task','textarea','',array('cols'=>'30')); ?>
-<?php $html->buildInput('task-start','Start Task?','checkbox', '', array('checked'=>'checked')); ?>
+
+<div id="bottom-area">
+<div id="control-area">
+<input type="button" id="show-add-task-form" value="Add Task" class="btn btn-primary" accesskey="z" />
+<input type="button" value="Refresh" class="btn btn-success pull-right refresh-button" />
+</div>
+
+<form action="new.php" method="post" id="add-task-form"><div class="contents">
+<textarea name="name" id="name" cols="30" rows="3" placeholder="Task"></textarea><br />
+<input type="checkbox" name="task-start" id="task-start" checked="checked" /> <label for="task-start">Start Task?</label><br />
 
 <input type='submit' name="action" value="Add" class="btn btn-primary" />
-<input type='button' id="cancel-add-task" value="Cancel" class="btn btn-info btn-sm pull-right" /><br />
-
+<input type='button' id="cancel-add-task" value="Cancel" class="btn btn-warning btn-sm" />
+<input type="button" value="Refresh" class="btn btn-success pull-right refresh-button" />
+</div>
 </form>
+</div>
 
-<input type="button" id="refresh" value="Refresh" class="btn btn-success pull-right" />
+</div>
 
 <script src="<?php echo $abs?>bower_components/jquery/dist/jquery.js" type="text/javascript"></script>
 <script src="<?php echo $abs?>js/application.js" type="text/javascript"></script>

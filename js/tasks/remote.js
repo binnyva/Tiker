@@ -3,16 +3,16 @@ var current_task_duration_id = 0;
 var current_task_id = 0;
 
 function init() {
-	jQuery("#show-add-task-form").click(showTaskForm);
+	$("#show-add-task-form").click(showTaskForm);
 
-	jQuery("#tabs li a").click(activateTab);
+	$("#tabs li a").click(activateTab);
 	
-	jQuery(".task-list li input").click(taskDoneClickHandler);
-	jQuery(".task-list li").click(taskClickHandler);
+	$(".task-list li input").click(taskDoneClickHandler);
+	$(".task-list li").click(taskClickHandler);
 
-	jQuery("#add-task-form").submit(addTask);
-	jQuery("#cancel-add-task").click(hideTaskForm);
-	$("#refresh").click(refreshPage);
+	$("#add-task-form").submit(addTask);
+	$("#cancel-add-task").click(hideTaskForm);
+	$(".refresh-button").click(refreshPage);
 	shortcut.add("Alt+z", showTaskForm);
 	shortcut.add("Alt+;", showTaskForm);//Dovark
 }
@@ -24,11 +24,11 @@ function refreshPage () {
 function activateTab(e) {
 	var tab = this.href.replace(/.*\#/,"");
 	var li  = this.parentNode;
-	jQuery("#tabs li").removeClass("active");
-	jQuery(li).addClass("active");
+	$("#tabs li").removeClass("active");
+	$(li).addClass("active");
 
-	jQuery(".task-list").hide();
-	jQuery("#"+tab).show();
+	$(".task-list").hide();
+	$("#"+tab).show();
 }
 
 /// The argument 'tab' should either 'once' or 'recurring'
@@ -40,32 +40,32 @@ function openTab(tab) {
 		tab_content_id = "recurring-task-list";
 	}
 
-	jQuery("#tabs li").removeClass("active");
-	jQuery("#" + tab_id).addClass("active");
+	$("#tabs li").removeClass("active");
+	$("#" + tab_id).addClass("active");
 
-	jQuery(".task-list").hide();
-	jQuery("#"+tab_content_id).show();
+	$(".task-list").hide();
+	$("#"+tab_content_id).show();
 }
 
 function showTaskForm(e) {
 	shortcut.add("Escape", hideTaskForm);
 	shortcut.add("Enter", addTask);
 	
-	jQuery("#show-add-task-form").toggle();
-	jQuery("#add-task-form").toggle();
-	jQuery("#name").focus();
+	$("#control-area").toggle();
+	$("#add-task-form").toggle();
+	$("#name").focus();
 	e.stopPropagation();
 	return false;
 }
 function hideTaskForm() {
-	jQuery("#show-add-task-form").toggle();
-	jQuery("#add-task-form").hide();
+	$("#control-area").toggle();
+	$("#add-task-form").hide();
 	shortcut.remove("Escape");
 	shortcut.remove("Enter");
 }
 
 function removePauseIndecators() {
-	jQuery(".task-list li").removeClass("paused");
+	$(".task-list li").removeClass("paused");
 }
 
 ///////////////////////////// Event Handlers ///////////////////////////////////
@@ -83,31 +83,31 @@ function taskClickHandler(e) {
 	
 	var task_id = ele.id.replace(/task\-/,"");
 	
-	if(jQuery(ele).hasClass('working')) { //The task is started - Pause it
+	if($(ele).hasClass('working')) { //The task is started - Pause it
 		pauseTask(task_id);
 
 	} else { //Start the task
-		jQuery(ele).addClass('working');
+		$(ele).addClass('working');
 		startTask(task_id);
 	}
 }
 
 /// Takes an task id and fetches the text part of that <li> element.
 function getTaskName(task_id) {
-	var ele = jQuery("#task-"+task_id);
+	var ele = $("#task-"+task_id);
 	if(ele.text()) return ele.text().replace(/^\s*/,'');
 	else return ele.html().replace(/<[^>]+>/g,'').replace(/^\s*/,'');
 }
 
 function startTask(task_id) {
 	var task_name = getTaskName(task_id);
-	jQuery("#timer-task").html(task_name);
+	$("#timer-task").html(task_name);
 	if(!current_task_id != task_id) clock.stop(); //New Task - not a unpausing
 	current_task_id = task_id;
 
 	//Visual Reminders
-	jQuery("#timer").removeClass('status-paused');
-	jQuery("#task-"+task_id).removeClass("paused");
+	$("#timer").removeClass('status-paused');
+	$("#task-"+task_id).removeClass("paused");
 	removePauseIndecators();
 
 	loading();
@@ -134,13 +134,13 @@ function startTask(task_id) {
 
 function pauseTask(task_id) {
 	var task_name = getTaskName(task_id);
-	jQuery("#timer-task").html(task_name + " [PAUSED]");
+	$("#timer-task").html(task_name + " [PAUSED]");
 	current_task_id = task_id;
 	clock.pause();
 	
 	//Visual Reminders
-	jQuery("#timer").addClass('status-paused');
-	var task_item = jQuery("#task-"+task_id);
+	$("#timer").addClass('status-paused');
+	var task_item = $("#task-"+task_id);
 	task_item.addClass("paused");
 	task_item.removeClass("working");
 
@@ -162,9 +162,9 @@ function pauseTask(task_id) {
 //If the user closes the popup without stoping/pausing the task - the task will continue 
 // - and this function will be called at the next startup
 function continueTask(task_id) {
-	jQuery("#task-"+task_id).addClass('working');
+	$("#task-"+task_id).addClass('working');
 	var task_name = getTaskName(task_id);
-	jQuery("#timer-task").html(task_name);
+	$("#timer-task").html(task_name);
 	current_task_id = task_id;
 	loading();
 
@@ -202,15 +202,15 @@ function stopTask(task_id) {
 		"success": function(data) {
 			loaded();
 			if(data.success) { // The task is done, remove the entry
-				jQuery("#timer-task").html("");
+				$("#timer-task").html("");
 				current_task_id = 0;
 				clock.stop();
-				jQuery("#task-"+task_id).remove();
+				$("#task-"+task_id).remove();
 
 				current_task_duration_id = 0;
 				
 			} else { //The task is a recurring one - it cannot be finished off. Pause it instead.
-				if(jQuery("#task-"+task_id).hasClass('working')) { //The task is started - Pause it
+				if($("#task-"+task_id).hasClass('working')) { //The task is started - Pause it
 					pauseTask(task_id);
 				}
 			}
@@ -223,9 +223,9 @@ function stopTask(task_id) {
 }
 
 function addTask(e) {
-	var task_name = jQuery("#name").val();
+	var task_name = $("#name").val();
 	var task_name_url = encodeURI(task_name);
-	var task_start = jQuery("#task-start").attr("checked").toString();
+	var task_start = $("#task-start").attr("checked").toString();
 
 	loading();
 	$.ajax({
@@ -240,7 +240,7 @@ function addTask(e) {
 				showMessage(error);
 				return;
 			}
-			var task_start = jQuery("#task-start").attr("checked");
+			var task_start = $("#task-start").attr("checked");
 
 			var li = $("<li>", {
 					"class": (task_start) ? "working" : "added", 
@@ -253,21 +253,21 @@ function addTask(e) {
 				}).click(taskDoneClickHandler);
 			li.append(input).append($("<span>", {"text":task_name, "class":"task-name"}));
 
-			var task_list = jQuery("#once-task-list");
+			var task_list = $("#once-task-list");
 			task_list.append(li);
 
 			// Show the Once Tab.
-			jQuery("#tabs li").removeClass("active");
-			jQuery("#tab-once-task-list").addClass("active");
+			$("#tabs li").removeClass("active");
+			$("#tab-once-task-list").addClass("active");
 
-			jQuery(".task-list").hide();
+			$(".task-list").hide();
 			task_list.show();
 			
 			if(task_start) {
 				removePauseIndecators();
 				current_task_id = data.task_id;
 				current_task_duration_id = data.duration_id;
-				jQuery("#timer-task").html(task_name);
+				$("#timer-task").html(task_name);
 				clock.stop();
 				clock.start();
 
@@ -280,9 +280,9 @@ function addTask(e) {
 			alert("Error retriving data from server.");
 		}
 		});
-	jQuery("#name").val("");
-	jQuery("#add-task-form").toggle();
-	jQuery("#show-add-task-form").toggle();
+	$("#name").val("");
+	$("#add-task-form").toggle();
+	$("#show-add-task-form").toggle();
 	e.stopPropagation();
 	return false;
 }
@@ -304,7 +304,7 @@ function calculateEstimate(task_name) {
 
 function fixTaskNameWidth() {
 	var container_width = $(".task-list").width();
-	var span_length = $(".working .task-name").html().length;
+	var span_length = $(".task-name").html().length;
 
     var width_ratio = Math.floor((container_width / span_length) * 1.8);
     var max = 18;

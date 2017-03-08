@@ -28,6 +28,7 @@ clock = {
 		this.time_left_in_mins = 0;
 
 		this.updateView();
+		fixTaskNameWidth();
 		$("#progress").css({"width":"0%"});
 	},
 	'tick':function() {
