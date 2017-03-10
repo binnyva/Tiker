@@ -64,12 +64,12 @@ continueTask(<?php echo $task['id']?>);
 </div>
 
 <form action="new.php" method="post" id="add-task-form"><div class="contents">
-<textarea name="name" id="name" cols="30" rows="3" placeholder="Task"></textarea><br />
-<input type="checkbox" name="task-start" id="task-start" checked="checked" /> <label for="task-start">Start Task?</label><br />
-
 <input type='submit' name="action" value="Add" class="btn btn-primary" />
 <input type='button' id="cancel-add-task" value="Cancel" class="btn btn-warning btn-sm" />
-<input type="button" value="Refresh" class="btn btn-success pull-right refresh-button" />
+<input type="button" value="Refresh" class="btn btn-success pull-right refresh-button" /><br /
+
+<textarea name="name" id="name" cols="30" rows="3" placeholder="Task"></textarea><br />
+<input type="checkbox" name="task-start" id="task-start" checked="checked" /> <label for="task-start">Start Task?</label>
 </div>
 </form>
 </div>

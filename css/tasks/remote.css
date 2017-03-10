@@ -1,13 +1,3 @@
-#add-task-form {
-	display:none;
-	margin-top: -96px;
-}
-#add-task-form div {
-	background-color:#fff;
-}
-#name {
-	width:100%;
-}
 #timer {
 	border:1px solid #9ea3e3;
 	background:#e5e0ff;
@@ -32,6 +22,42 @@
 	border-bottom:1px solid #9ea3e3;
 }
 
+#tabs {
+	list-style: none;
+	margin:10px 0 0 0;
+	padding: 0;
+	line-height: 24px;
+	position: relative;
+}
+
+#tabs:after {
+	position: absolute;
+	content: "";
+	width: 100%;
+	bottom: 0;
+	left: 0;
+	border-bottom: 1px solid #aaa;
+	z-index: 1;
+}
+#tabs li {
+	display: inline-block;
+	border:1px solid #aaa;
+	border-bottom: 0px;
+	padding:5px 5px 0 5px;
+	border-radius: 3px 3px 0 0;
+	position: relative;
+	background-color: #fff;
+}
+#tabs li.active {
+	border-bottom: 2px solid #fff;
+}
+#tabs li a {
+	text-decoration: none;
+}
+#recurring-task-list {
+	display: none;
+}
+
 .task-list {
 	list-style:none;
 	margin:0;
@@ -39,6 +65,7 @@
 	background-color: #fff;
 	height: 300px;
 	overflow: auto;
+	z-index:-5;
 }
 .task-list li {
 	font-size:110%;
@@ -83,42 +110,14 @@
 	background:#008183 !important;
 }
 
-#tabs {
-	list-style: none;
-	margin:10px 0 0 0;
-	padding: 0;
-	line-height: 24px;
-	position: relative;
+#add-task-form {
+	display:none;
+	/*margin-top: -96px;*/
+	z-index: 101;
 }
 
-#tabs:after {
-	position: absolute;
-	content: "";
-	width: 100%;
-	bottom: 0;
-	left: 0;
-	border-bottom: 1px solid #aaa;
-	z-index: 1;
-}
-#tabs li {
-	display: inline-block;
-	border:1px solid #aaa;
-	border-bottom: 0px;
-	padding:5px 5px 0 5px;
-	border-radius: 3px 3px 0 0;
-	z-index: 0;
-	position: relative;
-	background-color: #fff;
-}
-#tabs li.active {
-	border-bottom: 2px solid #fff;
-	z-index: 2;
-}
-#tabs li a {
-	text-decoration: none;
-}
-#recurring-task-list {
-	display: none;
+#name {
+	width:100%;
 }
 
 #progress {
@@ -130,7 +129,6 @@
 	left: 0;
 	z-index: -10;
 }
-
 
 /* Override Layout styles */
 body {
