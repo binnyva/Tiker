@@ -1,5 +1,12 @@
 #add-task-form {
 	display:none;
+	margin-top: -96px;
+}
+#add-task-form div {
+	background-color:#fff;
+}
+#name {
+	width:100%;
 }
 #timer {
 	border:1px solid #9ea3e3;
@@ -30,6 +37,8 @@
 	margin:0;
 	padding:0;
 	background-color: #fff;
+	height: 300px;
+	overflow: auto;
 }
 .task-list li {
 	font-size:110%;
@@ -112,7 +121,6 @@
 	display: none;
 }
 
-
 #progress {
 	background-color:#9ea3e3;
 	height:100%;
@@ -122,6 +130,8 @@
 	left: 0;
 	z-index: -10;
 }
+
+
 /* Override Layout styles */
 body {
 	margin:5px;
