@@ -49,7 +49,8 @@
 	background-color: #fff;
 }
 #tabs li.active {
-	border-bottom: 2px solid #fff;
+	/*border-bottom: 2px solid #fff;*/
+	z-index: 10;
 }
 #tabs li a {
 	text-decoration: none;
