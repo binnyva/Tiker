@@ -102,7 +102,7 @@
 	background:#b7aeff !important;
 }
 .task-list li.working {
-	font-weight: bold;
+	/*font-weight: bold;*/
 	/*font-size: 3.7vw;*/
 	/*line-height: 25px;*/
 	background:#0f0 !important;

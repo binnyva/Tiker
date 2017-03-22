@@ -15,6 +15,8 @@ function init() {
 	$(".refresh-button").click(refreshPage);
 	shortcut.add("Alt+z", showTaskForm);
 	shortcut.add("Alt+;", showTaskForm);//Dovark
+
+	fixTaskNameWidth();
 }
 
 function refreshPage () {
@@ -87,6 +89,7 @@ function taskClickHandler(e) {
 		pauseTask(task_id);
 
 	} else { //Start the task
+		$(".working").removeClass('working');
 		$(ele).addClass('working');
 		startTask(task_id);
 	}
@@ -304,14 +307,23 @@ function calculateEstimate(task_name) {
 
 function fixTaskNameWidth() {
 	var container_width = $(".task-list").width();
-	var span_length = $(".task-name").html().length;
+	var tasks = $(".task-name");
 
-    var width_ratio = Math.floor((container_width / span_length) * 1.8);
-    var max = 18;
-    var min = 6;
-    if(width_ratio > max) width_ratio = max;
-    if(width_ratio < min) width_ratio = min;
+	for (var i = tasks.length - 1; i >= 0; i--) {
+		var task = $(tasks[i]);
+		var span_length = task.text().length; 
 
-    $(".working .task-name").css('font-size', width_ratio + 'px');
-	// console.log(container_width, span_length, width_ratio);
+	    var width_ratio = Math.floor((container_width / span_length) * 1.8);
+	    var max = 18;
+	    var min = 6;
+	    if(width_ratio > max) width_ratio = max;
+	    if(width_ratio < min) width_ratio = min;
+
+	    var current_width = task.css('font-size').replace(/[^\.\d]/g, "");
+
+	    if(width_ratio < current_width) {
+			task.css('font-size', width_ratio + 'px');
+		}
+	}
 }
+

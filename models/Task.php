@@ -47,11 +47,11 @@ class Task extends DBTable {
 		
 		$this->newRow($id);
 		$this->field['name'] = $name;
-		if($description !== false) $this->field['description'] = $description;
-		if($completed_on !== false) $this->field['completed_on'] = $completed_on;
-		if($status !== false) $this->field['status'] = $status;
-		if($type !== false) $this->field['type'] = $type;
-		if($project_id !== false) $this->field['project_id'] = $project_id;
+		if($description !== false)	$this->field['description'] = $description;
+		if($completed_on !== false)	$this->field['completed_on'] = $completed_on;
+		if($status !== false)		$this->field['status'] = $status;
+		if($type !== false)			$this->field['type'] = $type;
+		if($project_id !== false)	$this->field['project_id'] = $project_id;
 
 		return $this->save();
 	}
@@ -87,9 +87,11 @@ class Task extends DBTable {
 	}
 	
 	function getValidationRules() {
-		return array(
-			array('name'=>'name', 'is'=>'empty', 'error'=>'The Name cannot be empty'),
-		);
+		return array(array(	
+			'name'	=> 'name', 
+			'is'	=> 'empty', 
+			'error'	=> 'The Name cannot be empty'
+		));
 	}
 	
 	
@@ -97,6 +99,7 @@ class Task extends DBTable {
 	
 	function startTask($task_id) {
 		checkTaskOwnership($task_id);
+		$this->stopAllTasks();
 		$this->newRow($task_id)->set(array('status'=>'working'))->save();
 
 		return $this->startTimer($task_id);
@@ -104,7 +107,10 @@ class Task extends DBTable {
 	
 	/// Stops tasks - but if the given task is recurring, this will return false - it will not be stopped(not even paused).
 	function stopTask($task_id) {
-		$stopped = $this->newRow($task_id)->set(array('status'=>'done', 'completed_on'=>'NOW()'))->where("type!='recurring'", "user_id=$_SESSION[user_id]")->save();
+		$stopped = 0;
+
+		$stopped += $this->newRow($task_id)->set(array('status'=>'done', 'completed_on'=>'NOW()'))->where("type!='recurring'", "user_id=$_SESSION[user_id]")->save();
+		$stopped += $this->newRow($task_id)->set(array('status'=>'paused', 'completed_on'=>'NOW()'))->where("type='recurring'", "user_id=$_SESSION[user_id]")->save();
 		
 		if($stopped) {
 			$this->pauseTimer($task_id);
@@ -121,13 +127,27 @@ class Task extends DBTable {
 		
 		if($stopped) $this->pauseTimer($task_id);
 	}
+
+	/// Stops all the tasks that are running for the current user
+	function stopAllTasks() {
+		global $sql;
+
+		$working_tasks = $this->select('id')->where(array("status" => 'working', "user_id"=> $_SESSION['user_id']))->get('col');
+		$task_update_count = 0;
+		foreach ($working_tasks as $task_id) {
+			$sql->update("Duration", array('to_time' => 'NOW()'), "WHERE task_id=$task_id");
+			$task_update_count += $this->newRow($task_id)->set(array('status' => 'paused', 'completed_on'=>'NOW()'))
+										->where(array("status" => 'working', "user_id" => $_SESSION['user_id']))->save();
+		}
+		return $task_update_count;
+	}
 	
 	/// Start the timer - from the beginning or from a paused state.
 	function startTimer($task_id) {
 		global $sql;
 		$sql->insert('Duration',array(
-				'task_id'=>$task_id,
-				'from_time'=>'NOW()'
+				'task_id'	=> $task_id,
+				'from_time'	=> 'NOW()'
 			));
 		return $sql->fetchInsertId();
 	}
@@ -138,7 +158,9 @@ class Task extends DBTable {
 		$current_duration_id = $this->getCurrentDuration($task_id);
 		
 		if($current_duration_id) {
-			$sql->Update('Duration',array(
+			$sql->update('Task',array('status' => 'paused'),"WHERE id=$task_id");
+
+			$sql->update('Duration',array(
 					'task_id'=>$task_id,
 					'to_time'=>'NOW()'
 				),"WHERE id=$current_duration_id");
@@ -176,51 +198,3 @@ class Task extends DBTable {
 	}
 }
 $GLOBALS['Task'] = new Task;
-
-/*
-Controllor Constructor Code(JSON):
-
-For Duration: {"title":"Duration","class_name":"Duration","object_name":"$Duration","table":"Duration","name_single":"Duration","name_plural":"Durations",
-"controller_name":"duration","model_file":"Duration.php","edit_funcionality":"1","delete_funcionality":"1","field_name_1":"id",
-"auto_handler_1":"primary_key","field_title_1":"Id","field_type_1":"text","field_date_format_1":"","field_password_encrypt_1":"",
-"field_password_salt_1":"","field_filetype_1":"","list_values_1":"","field_foreign_key_reference_1":"id","field_validation_1":["must","unique"],"field_name_2":"task_id","auto_handler_2":"off","field_title_2":"Task","field_type_2":
-"foreign_key","field_date_format_2":"","field_password_encrypt_2":"","field_password_salt_2":"","field_filetype_2":"",
-"list_values_2":"","field_foreign_key_reference_2":"task.id","field_name_3":"from_time","auto_handler_3":"off",
-"field_title_3":"From Time","field_type_3":"time","field_date_format_3":"%d %b %Y, %h:%i %p","field_show_time_3":"1","field_password_encrypt_3":"","field_password_salt_3":"","field_filetype_3":"",
-"list_values_3":"","field_foreign_key_reference_3":"from.time","field_validation_3":["must"],"field_name_4":"to_time","auto_handler_4":"off","field_title_4":"To Time","field_type_4":"time",
-"field_date_format_4":"%d %b %Y, %h:%i %p","field_show_time_4":"1","field_password_encrypt_4":"","field_password_salt_4":"","field_filetype_4":"",
-"list_values_4":"","field_foreign_key_reference_4":"to.time","field_validation_4":["must"],"total_fields":"4","pager_status":"1","pager_items_per_page":"20","upload_path":"..\/uploads","mandatory_text":"*","main_query":"","generate_files":["model.php","templates\/_form.php",
-"templates\/edit.php","controllers\/_form.php","controllers\/edit.php","controllers\/delete.php"],"action":"Create Code","error":"","success":""}
-
-
-For Task...
-{"title":"Task","class_name":"Task","object_name":"$Task","table":"Task","name_single":"Task","name_plural":"Tasks",
-"controller_name":"task","model_file":"Task.php","add_funcionality":"1","edit_funcionality":"1","delete_funcionality":"1",
-"field_name_1":"id","auto_handler_1":"primary_key","field_title_1":"Id","field_type_1":"text","field_date_format_1":"",
-"field_password_encrypt_1":"","field_password_salt_1":"","field_filetype_1":"","list_values_1":"","field_foreign_key_reference_1":"id",
-"field_validation_1":["must","unique"],"field_name_2":"name","auto_handler_2":"off","field_title_2":"Name","field_list_2":"1",
-"field_type_2":"text","field_date_format_2":"","field_password_encrypt_2":"","field_password_salt_2":"","field_filetype_2":"",
-"list_values_2":"","field_foreign_key_reference_2":"name","field_validation_2":["must"],"field_name_3":"description","auto_handler_3":"off","field_title_3":"Description","field_type_3":"textarea",
-"field_date_format_3":"","field_password_encrypt_3":"","field_password_salt_3":"","field_filetype_3":"","list_values_3":"",
-"field_foreign_key_reference_3":"description","field_name_4":"added_on","auto_handler_4":"time_of_insert",
-"field_title_4":"Added On","field_type_4":"text","field_date_format_4":"%d %b %Y, %h:%i %p","field_show_time_4":"1","field_password_encrypt_4":"","field_password_salt_4":"","field_filetype_4":"","list_values_4":"",
-"field_foreign_key_reference_4":"added.on","field_name_5":"completed_on","auto_handler_5":"off",
-"field_title_5":"Completed On","field_type_5":"date","field_date_format_5":"%d %b %Y, %h:%i %p",
-"field_show_time_5":"1","field_password_encrypt_5":"","field_password_salt_5":"","field_filetype_5":"","list_values_5":"",
-"field_foreign_key_reference_5":"completed.on","field_name_6":"status","auto_handler_6":"off","field_title_6":"Status",
-"field_type_6":"list","field_date_format_6":"","field_password_encrypt_6":"","field_password_salt_6":"","field_filetype_6":"",
-"list_values_6":"'working'=>'Working', 'scheduled'=>'Scheduled', 'suspended'=>'Suspended', 'done'=>'Done', ",
-"field_foreign_key_reference_6":"status","field_name_7":"type","auto_handler_7":"off","field_title_7":"Type",
-"field_list_7":"1","field_type_7":"list","field_date_format_7":"","field_password_encrypt_7":"","field_password_salt_7":"",
-"field_filetype_7":"","list_values_7":"'recurring'=>'Recurring','once'=>'Once','scheduled'=>'Scheduled',",
-"field_foreign_key_reference_7":"type","field_name_8":"project_id","auto_handler_8":"off","field_title_8":"Project Id",
-"field_list_8":"1","field_type_8":"foreign_key","field_date_format_8":"","field_password_encrypt_8":"","field_password_salt_8":"",
-"field_filetype_8":"","list_values_8":"","field_foreign_key_reference_8":"Project.id","field_name_9":"user_id",
-"auto_handler_9":"current_user","field_title_9":"User Id","field_type_9":"text","field_date_format_9":"","field_password_encrypt_9":"","field_password_salt_9":"",
-"field_filetype_9":"","list_values_9":"","field_foreign_key_reference_9":"user.id","field_validation_9":["must","unique"],
-"total_fields":"9","status_field":"status","pager_status":"1","upload_path":"..\/uploads",
-"mandatory_text":"*","main_query":"","generate_files":["model.php","templates\/_form.php",
-"templates\/edit.php","templates\/index.php","templates\/add.php","controllers\/_form.php","controllers\/edit.php",
-"controllers\/index.php","controllers\/add.php","controllers\/delete.php"],"action":"Create Code","error":"","success":""}
-
-*/

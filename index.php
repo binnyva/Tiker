@@ -37,6 +37,6 @@ $html = new HTML;
 $template->addResource('tasks/clock.js','js');
 $template->addResource('library/shortcut.js','js');
 $template->addResource('reports/day.css','css');
-$template->addResource('tasks/remote.css','css');
-$template->addResource('tasks/remote.js','js');
+// $template->addResource('tasks/remote.css','css');
+// $template->addResource('tasks/remote.js','js');
 render();
