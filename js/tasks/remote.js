@@ -293,8 +293,7 @@ function addTask(e) {
 		}
 		});
 	$("#name").val("");
-	$("#add-task-form").toggle();
-	$("#show-add-task-form").toggle();
+	hideTaskForm();
 	e.stopPropagation();
 	return false;
 }

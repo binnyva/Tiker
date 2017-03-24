@@ -117,6 +117,10 @@ class Task extends DBTable {
 	
 	/// Stops tasks - change status to 'done'
 	function stopTask($task_id) {
+		global $sql;
+
+		$current_duration_id = $this->getCurrentDuration($task_id);
+		if($current_duration_id) $sql->update("Duration", array('to_time' => 'NOW()'), "WHERE id=$current_duration_id");
 		$stopped = $this->newRow($task_id)->set(array('status'=>'done', 'completed_on'=>'NOW()'))->where("type!='recurring'", "user_id=$_SESSION[user_id]")->save();
 		
 		return $stopped;
@@ -136,7 +140,8 @@ class Task extends DBTable {
 		$working_tasks = $this->select('id')->where(array("status" => 'working', "user_id"=> $_SESSION['user_id']))->get('col');
 		$task_update_count = 0;
 		foreach ($working_tasks as $task_id) {
-			$sql->update("Duration", array('to_time' => 'NOW()'), "WHERE task_id=$task_id");
+			$current_duration_id = $this->getCurrentDuration($task_id);
+			if($current_duration_id) $sql->update("Duration", array('to_time' => 'NOW()'), "WHERE id=$current_duration_id");
 			$task_update_count += $this->newRow($task_id)->set(array('status' => 'paused', 'completed_on'=>'NOW()'))
 										->where(array("status" => 'working', "user_id" => $_SESSION['user_id']))->save();
 		}
@@ -182,8 +187,8 @@ class Task extends DBTable {
 	/// Gets the total time spent on a given task(ALL DURATIONS)
 	function getTotalTime($task_id) {
 		global $sql;
-		$total_time = $sql->getOne("SELECT SUM(UNIX_TIMESTAMP(to_time)-UNIX_TIMESTAMP(from_time)) FROM Duration "
-									. "WHERE task_id=$task_id AND to_time!='0000-00-00 00:00:00' GROUP BY task_id");
+		$total_time = $sql->getOne("SELECT SUM(UNIX_TIMESTAMP(to_time)-UNIX_TIMESTAMP(from_time)) FROM Duration 
+										WHERE task_id=$task_id AND to_time!='0000-00-00 00:00:00' GROUP BY task_id");
 		return $total_time;
 	}
 	
@@ -193,8 +198,9 @@ class Task extends DBTable {
 	*/
 	function getCurrentDuration($task_id) {
 		global $sql;
-		$duration_id = $sql->getOne("SELECT id FROM Duration WHERE task_id=$task_id AND to_time='0000-00-00 00:00:00' "
-											. " ORDER BY from_time DESC LIMIT 0,1");
+		$duration_id = $sql->getOne("SELECT id FROM Duration 
+										WHERE task_id=$task_id AND to_time='0000-00-00 00:00:00' 
+										ORDER BY from_time DESC LIMIT 0,1");
 		return $duration_id;
 	}
 
