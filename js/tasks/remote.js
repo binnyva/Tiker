@@ -98,8 +98,17 @@ function taskClickHandler(e) {
 /// Takes an task id and fetches the text part of that <li> element.
 function getTaskName(task_id) {
 	var ele = $("#task-"+task_id);
-	if(ele.text()) return ele.text().replace(/^\s*/,'');
-	else return ele.html().replace(/<[^>]+>/g,'').replace(/^\s*/,'');
+	var name = "";
+	if(ele.text()) name = ele.text().replace(/^\s*/,'');
+	else name = ele.html().replace(/<[^>]+>/g,'').replace(/^\s*/,'');
+
+	var name = name.replace(/\#[\w\-]+/g, ''); // Take out the tags from the name
+
+	// $task_name = preg_replace("/#[\w\-]+/", '', $body);
+	// $task_name = preg_replace("/\@[\w\-]+/", '', $task_name);
+	// $task_name = preg_replace("/\:\s*[\d\:]+\s*(Mins|Minutes|Hr|Hrs|Hours|H|M)\s*$/i", '', $task_name);
+	
+	return name;
 }
 
 function startTask(task_id) {

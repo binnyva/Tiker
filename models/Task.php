@@ -1,11 +1,19 @@
 <?php
 class Task extends DBTable {
+	private $_tag;
 	/**
 	 * Constructor
 	 * Arguments : None
 	 */
 	function __construct() {
 		parent::__construct("Task");
+
+		// http://www.jqueryscript.net/form/Creating-An-Tweet-Like-Text-Box-with-jQuery-Tweetbox.html
+		$this->_tag = new Tagging;
+		$this->_tag->setReferenceTable('TaskTag', 'term_id', 'task_id');
+		$this->_tag->setTagTable('Term');
+		$this->_tag->setItemTable('Task');
+		// $this->_tag->checkSetup(); // :DEBUG:
 	}
 
 	/**
@@ -21,20 +29,24 @@ class Task extends DBTable {
 		}
 		
 		$this->newRow();
-		$this->field['name'] = $name;
+		$this->field['name'] = $this->getTaskName($name);
 		if($description !== false)	$this->field['description'] = $description;
 		if($status !== false)		$this->field['status'] = $status;
 		if($type !== false)			$this->field['type'] = $type;
 		if($project_id !== false)	$this->field['project_id'] = $project_id;
 		$this->field['user_id']	= 	$_SESSION['user_id'];
 		$this->field['added_on']= 	'NOW()';
-				
-		return $this->save();
+
+		$task_id = $this->save();
+		
+		$this->parseTags($name, $task_id);
+		return $task_id;
 	}
 	
 	/**
 	 * You can edit an existing Task using this function. The first argument 
 	 * 		must be the id of the row to be edited
+	 * Not sure if this is ever used. 
 	 */
 	function edit($id, $name, $description=false, $status=false, $type=false,  $completed_on=false, $project_id=false) {
 		if(!$id) return -1;
@@ -94,9 +106,7 @@ class Task extends DBTable {
 		));
 	}
 	
-	
-	/////////////////////////////// Custom Code ///////////////////////////
-	
+	/// Start a task
 	function startTask($task_id) {
 		checkTaskOwnership($task_id);
 		$this->stopAllTasks();
@@ -105,20 +115,11 @@ class Task extends DBTable {
 		return $this->startTimer($task_id);
 	}
 	
-	/// Stops tasks - but if the given task is recurring, this will return false - it will not be stopped(not even paused).
+	/// Stops tasks - change status to 'done'
 	function stopTask($task_id) {
-		$stopped = 0;
-
-		$stopped += $this->newRow($task_id)->set(array('status'=>'done', 'completed_on'=>'NOW()'))->where("type!='recurring'", "user_id=$_SESSION[user_id]")->save();
-		$stopped += $this->newRow($task_id)->set(array('status'=>'paused', 'completed_on'=>'NOW()'))->where("type='recurring'", "user_id=$_SESSION[user_id]")->save();
+		$stopped = $this->newRow($task_id)->set(array('status'=>'done', 'completed_on'=>'NOW()'))->where("type!='recurring'", "user_id=$_SESSION[user_id]")->save();
 		
-		if($stopped) {
-			$this->pauseTimer($task_id);
-			return true;
-		}
-		
-		// Guess it was recurring task
-		return false;
+		return $stopped;
 	}
 
 	/// Stops all tasks - even recurring ones [why do we need this again?]
@@ -195,6 +196,26 @@ class Task extends DBTable {
 		$duration_id = $sql->getOne("SELECT id FROM Duration WHERE task_id=$task_id AND to_time='0000-00-00 00:00:00' "
 											. " ORDER BY from_time DESC LIMIT 0,1");
 		return $duration_id;
+	}
+
+	/// Parse the name of the task to figure out the Tags in the name
+	function parseTags($body, $entry_id = 0) {
+		preg_match_all("/#([\w\-]+)/", $body, $matches);
+
+		if($matches and $entry_id) {
+			$this->_tag->setTags($entry_id, $matches[1]);
+		}
+
+		return preg_replace("/#[\w\-]+/", '', $body);
+	}
+
+	/// Strips tag, project and time from task and just returns the task name
+	function getTaskName($body) {
+		$task_name = preg_replace("/#[\w\-]+/", '', $body);
+		// $task_name = preg_replace("/\@[\w\-]+/", '', $task_name);
+		// $task_name = preg_replace("/\:\s*[\d\:]+\s*(Mins|Minutes|Hr|Hrs|Hours|H|M)\s*$/i", '', $task_name);
+
+		return $task_name;
 	}
 }
 $GLOBALS['Task'] = new Task;

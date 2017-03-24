@@ -12,9 +12,9 @@ if(isRequest('action','start')) {
 	$times = formatTimeFromSeconds($total_time);
 
 	$data = array(
-		'duration_id'=>$duration_id,
-		'total_time_minutes'=>$times[1],
-		'total_time_hours'=>$times[0]
+		'duration_id'		=> $duration_id,
+		'total_time_minutes'=> $times[1],
+		'total_time_hours'	=> $times[0]
 	);
 	showMessage("Task Started",'index.php','success',$data);
 
@@ -23,10 +23,8 @@ if(isRequest('action','start')) {
 	showMessage("Task Paused");
 
 } else if(isRequest('action','done')) {
-	if($Task->stopTask($QUERY['task_id']))	showMessage("Task Compleated");
-	else {// Someone tried to end a recurring task. Bad, bad.
-		showMessage("Recurring task - cannot be finished",'index.php','error');
-	}
+	$Task->stopTask($QUERY['task_id']);
+	showMessage("Task Compleated");
 
 } else if(isRequest('action','continue')) {
 	$total_time = $Task->getTotalTime($QUERY['task_id']); //Find how long this task was going on
